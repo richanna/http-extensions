@@ -339,6 +339,10 @@ Table of Contents
       Signature may be verified multiple times, potentially by different
       entities.
 
+   The term "Unix time" is defined by [POSIX.1] section 4.16
+   (http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/
+   V1_chap04.html#tag_04_16).
+
    This document contains non-normative examples of partial and complete
    HTTP messages.  To improve readability, header fields may be split
    into multiple lines, using the "obs-fold" syntax.  This syntax is
@@ -500,10 +504,7 @@ Table of Contents
    "*created" identifier.
 
    Its canonicalized value is an Integer String containing the
-   signature's Creation Time expressed as the number of seconds since
-   the Epoch, as defined in Section 4.16
-   (https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/
-   V1_chap04.html#tag_04_16) of [POSIX.1].
+   signature's Creation Time expressed in "Unix time".
 
       The use of seconds since the Epoch to canonicalize a timestamp
       simplifies processing and avoids timezone management required by
@@ -515,10 +516,7 @@ Table of Contents
    "*expires" identifier.
 
    Its canonicalized value is a Decimal String containing the
-   signature's Expiration Time expressed as the number of seconds since
-   the Epoch, as defined in Section 4.16
-   (https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/
-   V1_chap04.html#tag_04_16) of [POSIX.1].
+   signature's Expiration Time expressed in "Unix time".
 
 2.6.  Target Endpoint
 
@@ -1182,9 +1180,11 @@ Table of Contents
               <https://www.rfc-editor.org/info/rfc7231>.
 
    [StructuredFields]
-              "Structured Field Vaues for HTTP", 2020,
-              <https://datatracker.ietf.org/doc/draft-ietf-httpbis-
-              header-structure>.
+              Nottingham, M. and P. Kamp, "Structured Field Values for
+              HTTP", Work in Progress, Internet-Draft, draft-ietf-
+              httpbis-header-structure-19, 3 June 2020,
+              <http://www.ietf.org/internet-drafts/draft-ietf-httpbis-
+              header-structure-19.txt>.
 
 7.2.  Informative References
 
