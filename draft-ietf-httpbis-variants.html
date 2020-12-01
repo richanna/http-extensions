@@ -9,11 +9,11 @@
 <meta content='
        This specification introduces an alternative way to select a HTTP response from a cache based upon its request headers, using the HTTP "Variants" and "Variant-Key" response header fields. Its aim is to make HTTP proactive content negotiation more cache-friendly. 
     ' name="description">
-<meta content="xml2rfc 3.2.1" name="generator">
+<meta content="xml2rfc 3.4.0" name="generator">
 <meta content="content negotiation" name="keyword">
 <meta content="draft-ietf-httpbis-variants" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.2.1
+  xml2rfc 3.4.0
     Python 3.8.5
     appdirs 1.4.4
     ConfigArgParse 1.2.3
@@ -818,11 +818,11 @@ address div.right {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">HTTP Representation Variants</td>
-<td class="right">October 2020</td>
+<td class="right">December 2020</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Nottingham</td>
-<td class="center">Expires 26 April 2021</td>
+<td class="center">Expires 4 June 2021</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -838,12 +838,12 @@ address div.right {
 <a href="https://www.rfc-editor.org/rfc/rfc7234" class="eref">7234</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-10-23" class="published">23 October 2020</time>
+<time datetime="2020-12-01" class="published">1 December 2020</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2021-04-26">26 April 2021</time></dd>
+<dd class="expires"><time datetime="2021-06-04">4 June 2021</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -888,7 +888,7 @@ for this draft can be found at <a href="https://github.com/httpwg/http-extension
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 26 April 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 June 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -916,108 +916,108 @@ for this draft can be found at <a href="https://github.com/httpwg/http-extension
         <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
 <a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
         </h2>
-<nav class="toc"><ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.1">
+<nav class="toc"><ul class="ulEmpty compact toc">
+<li class="ulEmpty compact toc" id="section-toc.1-1.1">
             <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a><a href="#section-toc.1-1.1.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.1.2.1">
+<ul class="ulEmpty compact toc">
+<li class="ulEmpty compact toc" id="section-toc.1-1.1.2.1">
                 <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-notational-conventions" class="xref">Notational Conventions</a><a href="#section-toc.1-1.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.2">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.2">
             <p id="section-toc.1-1.2.1"><a href="#section-2" class="xref">2</a>.  <a href="#name-the-variants-http-header-fi" class="xref">The "Variants" HTTP Header Field</a><a href="#section-toc.1-1.2.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.2.2.1">
+<ul class="ulEmpty compact toc">
+<li class="ulEmpty compact toc" id="section-toc.1-1.2.2.1">
                 <p id="section-toc.1-1.2.2.1.1" class="keepWithNext"><a href="#section-2.1" class="xref">2.1</a>.  <a href="#name-relationship-to-vary" class="xref">Relationship to Vary</a><a href="#section-toc.1-1.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.3">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.3">
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-the-variant-key-http-header" class="xref">The "Variant-Key" HTTP Header Field</a><a href="#section-toc.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.4">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-cache-behaviour" class="xref">Cache Behaviour</a><a href="#section-toc.1-1.4.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.4.2.1">
+<ul class="ulEmpty compact toc">
+<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.1">
                 <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-compute-possible-keys" class="xref">Compute Possible Keys</a><a href="#section-toc.1-1.4.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.4.2.2">
+              <li class="ulEmpty compact toc" id="section-toc.1-1.4.2.2">
                 <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-check-vary" class="xref">Check Vary</a><a href="#section-toc.1-1.4.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.4.2.3">
+              <li class="ulEmpty compact toc" id="section-toc.1-1.4.2.3">
                 <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="xref">4.3</a>.  <a href="#name-example-of-cache-behaviour" class="xref">Example of Cache Behaviour</a><a href="#section-toc.1-1.4.2.3.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.4.2.3.2.1">
+<ul class="ulEmpty compact toc">
+<li class="ulEmpty compact toc" id="section-toc.1-1.4.2.3.2.1">
                     <p id="section-toc.1-1.4.2.3.2.1.1"><a href="#section-4.3.1" class="xref">4.3.1</a>.  <a href="#name-a-variant-missing-from-the-" class="xref">A Variant Missing From the Cache</a><a href="#section-toc.1-1.4.2.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                  <li class="toc ulEmpty compact" id="section-toc.1-1.4.2.3.2.2">
+                  <li class="ulEmpty compact toc" id="section-toc.1-1.4.2.3.2.2">
                     <p id="section-toc.1-1.4.2.3.2.2.1"><a href="#section-4.3.2" class="xref">4.3.2</a>.  <a href="#name-variants-that-dont-overlap-" class="xref">Variants That Don't Overlap the Client's Request</a><a href="#section-toc.1-1.4.2.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
             </ul>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.5">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.5">
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-origin-server-behaviour" class="xref">Origin Server Behaviour</a><a href="#section-toc.1-1.5.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.5.2.1">
+<ul class="ulEmpty compact toc">
+<li class="ulEmpty compact toc" id="section-toc.1-1.5.2.1">
                 <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-examples" class="xref">Examples</a><a href="#section-toc.1-1.5.2.1.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.5.2.1.2.1">
+<ul class="ulEmpty compact toc">
+<li class="ulEmpty compact toc" id="section-toc.1-1.5.2.1.2.1">
                     <p id="section-toc.1-1.5.2.1.2.1.1"><a href="#section-5.1.1" class="xref">5.1.1</a>.  <a href="#name-single-variant" class="xref">Single Variant</a><a href="#section-toc.1-1.5.2.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                  <li class="toc ulEmpty compact" id="section-toc.1-1.5.2.1.2.2">
+                  <li class="ulEmpty compact toc" id="section-toc.1-1.5.2.1.2.2">
                     <p id="section-toc.1-1.5.2.1.2.2.1"><a href="#section-5.1.2" class="xref">5.1.2</a>.  <a href="#name-multiple-variants" class="xref">Multiple Variants</a><a href="#section-toc.1-1.5.2.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
-                  <li class="toc ulEmpty compact" id="section-toc.1-1.5.2.1.2.3">
+                  <li class="ulEmpty compact toc" id="section-toc.1-1.5.2.1.2.3">
                     <p id="section-toc.1-1.5.2.1.2.3.1"><a href="#section-5.1.3" class="xref">5.1.3</a>.  <a href="#name-partial-coverage" class="xref">Partial Coverage</a><a href="#section-toc.1-1.5.2.1.2.3.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
             </ul>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.6">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-defining-content-negotiatio" class="xref">Defining Content Negotiation Using Variants</a><a href="#section-toc.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.7">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.7">
             <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a><a href="#section-toc.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.8">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.8">
             <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a><a href="#section-toc.1-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.9">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.9">
             <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-references" class="xref">References</a><a href="#section-toc.1-1.9.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.9.2.1">
+<ul class="ulEmpty compact toc">
+<li class="ulEmpty compact toc" id="section-toc.1-1.9.2.1">
                 <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="xref">9.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a><a href="#section-toc.1-1.9.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.9.2.2">
+              <li class="ulEmpty compact toc" id="section-toc.1-1.9.2.2">
                 <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="xref">9.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a><a href="#section-toc.1-1.9.2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.10">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.10">
             <p id="section-toc.1-1.10.1"><a href="#section-appendix.a" class="xref">Appendix A</a>.  <a href="#name-variants-for-existing-conte" class="xref">Variants for Existing Content Negotiation Mechanisms</a><a href="#section-toc.1-1.10.1" class="pilcrow">¶</a></p>
-<ul class="toc ulEmpty compact">
-<li class="toc ulEmpty compact" id="section-toc.1-1.10.2.1">
+<ul class="ulEmpty compact toc">
+<li class="ulEmpty compact toc" id="section-toc.1-1.10.2.1">
                 <p id="section-toc.1-1.10.2.1.1"><a href="#section-a.1" class="xref">A.1</a>.  <a href="#name-accept" class="xref">Accept</a><a href="#section-toc.1-1.10.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.10.2.2">
+              <li class="ulEmpty compact toc" id="section-toc.1-1.10.2.2">
                 <p id="section-toc.1-1.10.2.2.1"><a href="#section-a.2" class="xref">A.2</a>.  <a href="#name-accept-encoding" class="xref">Accept-Encoding</a><a href="#section-toc.1-1.10.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.10.2.3">
+              <li class="ulEmpty compact toc" id="section-toc.1-1.10.2.3">
                 <p id="section-toc.1-1.10.2.3.1"><a href="#section-a.3" class="xref">A.3</a>.  <a href="#name-accept-language" class="xref">Accept-Language</a><a href="#section-toc.1-1.10.2.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="toc ulEmpty compact" id="section-toc.1-1.10.2.4">
+              <li class="ulEmpty compact toc" id="section-toc.1-1.10.2.4">
                 <p id="section-toc.1-1.10.2.4.1"><a href="#section-a.4" class="xref">A.4</a>.  <a href="#name-cookie" class="xref">Cookie</a><a href="#section-toc.1-1.10.2.4.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.11">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.11">
             <p id="section-toc.1-1.11.1"><a href="#section-appendix.b" class="xref"></a><a href="#name-acknowledgements" class="xref">Acknowledgements</a><a href="#section-toc.1-1.11.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="toc ulEmpty compact" id="section-toc.1-1.12">
+          <li class="ulEmpty compact toc" id="section-toc.1-1.12">
             <p id="section-toc.1-1.12.1"><a href="#section-appendix.c" class="xref"></a><a href="#name-authors-address" class="xref">Author's Address</a><a href="#section-toc.1-1.12.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
@@ -1034,7 +1034,7 @@ for this draft can be found at <a href="https://github.com/httpwg/http-extension
 <p id="section-1-3">HTTP's caching model allows a certain amount of latitude in normalising those request header field values, so as to increase the chances of a cache hit while still respecting the semantics of that header. However, normalisation is not formally defined, leading to infrequent implementation in cache, and divergence of behaviours when it is.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-4">Even when the headers' semantics are understood, a cache does not know enough about the possible alternative representations available on the origin server to make an appropriate decision.<a href="#section-1-4" class="pilcrow">¶</a></p>
 <p id="section-1-5">For example, if a cache has stored the following request/response pair:<a href="#section-1-5" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft art-example" id="section-1-6">
+<div class="artwork art-text alignLeft art-http-message" id="section-1-6">
 <pre>
 GET /foo HTTP/1.1
 Host: www.example.com
@@ -1042,7 +1042,7 @@ Accept-Language: en;q=0.5, fr;q=1.0
 
 </pre><a href="#section-1-6" class="pilcrow">¶</a>
 </div>
-<div class="artwork art-text alignLeft art-example" id="section-1-7">
+<div class="artwork art-text alignLeft art-http-message" id="section-1-7">
 <pre>
 HTTP/1.1 200 OK
 Content-Type: text/html
@@ -1054,10 +1054,10 @@ Transfer-Encoding: chunked
 </pre><a href="#section-1-7" class="pilcrow">¶</a>
 </div>
 <p id="section-1-8">Provided that the cache has full knowledge of the semantics of Accept-Language and Content-Language, it will know that an English representation is available and might be able to infer that a French representation is not available. But, it does not know (for example) whether a Japanese representation is available without making another request, incurring possibly unnecessary latency.<a href="#section-1-8" class="pilcrow">¶</a></p>
-<p id="section-1-9">This specification introduces the HTTP Variants response header field (<a href="#variants" class="xref">Section 2</a>) to enumerate the available variant representations on the origin server, to provide clients and caches with enough information to properly satisfy requests - either by selecting a response from cache or by forwarding the request towards the origin - by following the algorithm defined in <a href="#cache" class="xref">Section 4</a>.<a href="#section-1-9" class="pilcrow">¶</a></p>
+<p id="section-1-9">This specification introduces the HTTP Variants response header field (<a href="#variants" class="xref">Section 2</a>) to enumerate the available variant representations on the origin server, to provide clients and caches with enough information to properly satisfy requests -- either by selecting a response from cache or by forwarding the request towards the origin -- by following the algorithm defined in <a href="#cache" class="xref">Section 4</a>.<a href="#section-1-9" class="pilcrow">¶</a></p>
 <p id="section-1-10">Its companion Variant-Key response header field (<a href="#variant-key" class="xref">Section 3</a>) indicates the applicable key(s) that the response is associated with, so that it can be reliably reused in the future. Effectively, it allows the specification of a request header field to define how it affects the secondary cache key.<a href="#section-1-10" class="pilcrow">¶</a></p>
 <p id="section-1-11">When this specification is in use, the example above might become:<a href="#section-1-11" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft art-example" id="section-1-12">
+<div class="artwork art-text alignLeft art-http-message" id="section-1-12">
 <pre>
 GET /foo HTTP/1.1
 Host: www.example.com
@@ -1065,13 +1065,13 @@ Accept-Language: en;q=0.5, fr;q=1.0
 
 </pre><a href="#section-1-12" class="pilcrow">¶</a>
 </div>
-<div class="artwork art-text alignLeft art-example" id="section-1-13">
+<div class="artwork art-text alignLeft art-http-message" id="section-1-13">
 <pre>
 HTTP/1.1 200 OK
 Content-Type: text/html
 Content-Language: en
 Vary: Accept-Language
-Variants: Accept-Language;de;en;jp
+Variants: accept-language;de;en;jp
 Variant-Key: en
 Transfer-Encoding: chunked
 
@@ -1112,30 +1112,30 @@ Variants        = sh-dict
 <p id="section-2-5">If Structured Header parsing fails or a member's value does not have the structure outlined above, the client MUST treat the representation as having no Variants header field.<a href="#section-2-5" class="pilcrow">¶</a></p>
 <p id="section-2-6">Note that an available-value that is a token is interpreted as a string containing the same characters, and vice versa.<a href="#section-2-6" class="pilcrow">¶</a></p>
 <p id="section-2-7">So, given this example header field:<a href="#section-2-7" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft art-example" id="section-2-8">
+<div class="artwork art-text alignLeft art-http-message" id="section-2-8">
 <pre>
-Variants: Accept-Encoding=(gzip)
+Variants: accept-encoding=(gzip)
 </pre><a href="#section-2-8" class="pilcrow">¶</a>
 </div>
 <p id="section-2-9">a recipient can infer that the only content-coding available for that resource is "gzip" (along with the "identity" non-encoding; see <a href="#content-encoding" class="xref">Appendix A.2</a>).<a href="#section-2-9" class="pilcrow">¶</a></p>
 <p id="section-2-10">Given:<a href="#section-2-10" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft art-example" id="section-2-11">
+<div class="artwork art-text alignLeft art-http-message" id="section-2-11">
 <pre>
 Variants: accept-encoding=()
 </pre><a href="#section-2-11" class="pilcrow">¶</a>
 </div>
 <p id="section-2-12">a recipient can infer that no content-codings (beyond identity) are supported. Note that as always, field-name is case-insensitive.<a href="#section-2-12" class="pilcrow">¶</a></p>
 <p id="section-2-13">A more complex example:<a href="#section-2-13" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft art-example" id="section-2-14">
+<div class="artwork art-text alignLeft art-http-message" id="section-2-14">
 <pre>
-Variants: Accept-Encoding=(gzip br), Accept-Language=(en fr)
+Variants: accept-encoding=(gzip br), accept-language=(en fr)
 </pre><a href="#section-2-14" class="pilcrow">¶</a>
 </div>
 <p id="section-2-15">Here, recipients can infer that two content-codings in addition to "identity" are available, as well as two content languages. Note that, as with all Structured Header dictionaries, they might occur in the same header field or separately, like this:<a href="#section-2-15" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft art-example" id="section-2-16">
+<div class="artwork art-text alignLeft art-http-message" id="section-2-16">
 <pre>
-Variants: Accept-Encoding=(gzip brotli)
-Variants: Accept-Language=(en fr)
+Variants: accept-encoding=(gzip brotli)
+Variants: accept-language=(en fr)
 </pre><a href="#section-2-16" class="pilcrow">¶</a>
 </div>
 <p id="section-2-17">The ordering of available-values is significant, as it might be used by the header's algorithm for selecting a response (in this example, the first language is the default; see <a href="#content-language" class="xref">Appendix A.3</a>).<a href="#section-2-17" class="pilcrow">¶</a></p>
@@ -1175,7 +1175,7 @@ Variant-Key      = sh-list
 <p id="section-3-7">For example:<a href="#section-3-7" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft art-example" id="section-3-8">
 <pre>
-Variants: Accept-Encoding=(gzip br), Accept-Language=(en fr)
+Variants: accept-encoding=(gzip br), accept-language=(en fr)
 Variant-Key: (gzip fr)
 </pre><a href="#section-3-8" class="pilcrow">¶</a>
 </div>
@@ -1183,15 +1183,15 @@ Variant-Key: (gzip fr)
 <p id="section-3-10">If the response can be used to satisfy more than one request, they can be listed in additional members.  For example:<a href="#section-3-10" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft art-example" id="section-3-11">
 <pre>
-Variants: Accept-Encoding=(gzip br), Accept-Language=(en fr)
+Variants: accept-encoding=(gzip br), accept-language=(en fr)
 Variant-Key: (gzip fr), ("identity" fr)
 </pre><a href="#section-3-11" class="pilcrow">¶</a>
 </div>
-<p id="section-3-12">indicates that this response can be used for requests whose Accept-Encoding algorithm selects "gzip" or "identity", as long as the Accept-Language algorithm selects "fr" - perhaps because there is no gzip-compressed French representation.<a href="#section-3-12" class="pilcrow">¶</a></p>
+<p id="section-3-12">indicates that this response can be used for requests whose Accept-Encoding algorithm selects "gzip" or "identity", as long as the Accept-Language algorithm selects "fr" -- perhaps because there is no gzip-compressed French representation.<a href="#section-3-12" class="pilcrow">¶</a></p>
 <p id="section-3-13">When more than one Variant-Key value is in a response, the first one present MUST correspond to the request that caused that response to be generated. For example:<a href="#section-3-13" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignLeft art-example" id="section-3-14">
 <pre>
-Variants: Accept-Encoding=(gzip br), Accept-Language=(en fr)
+Variants: accept-encoding=(gzip br), accept-language=(en fr)
 Variant-Key: (gzip fr), (identity fr), (br fr oops)
 </pre><a href="#section-3-14" class="pilcrow">¶</a>
 </div>
@@ -1526,7 +1526,7 @@ Vary: Accept-Language, Accept-Encoding
 Transfer-Encoding: chunked
 </pre><a href="#section-5.1.3-3" class="pilcrow">¶</a>
 </div>
-<p id="section-5.1.3-4">Here, the cache will need to calculate a secondary cache key as per <span>[<a href="#RFC7234" class="xref">RFC7234</a>]</span>, Section 4.1 - but considering only Accept-Language to be in its field-value - and then continue processing Variants for the set of stored responses that the algorithm described there selects.<a href="#section-5.1.3-4" class="pilcrow">¶</a></p>
+<p id="section-5.1.3-4">Here, the cache will need to calculate a secondary cache key as per <span>[<a href="#RFC7234" class="xref">RFC7234</a>]</span>, Section 4.1 -- but considering only Accept-Language to be in its field-value -- and then continue processing Variants for the set of stored responses that the algorithm described there selects.<a href="#section-5.1.3-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

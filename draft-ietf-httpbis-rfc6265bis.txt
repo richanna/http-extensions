@@ -6,7 +6,7 @@ HTTP                                                        M. West, Ed.
 Internet-Draft                                               Google, Inc
 Obsoletes: 6265 (if approved)                           J. Wilander, Ed.
 Intended status: Standards Track                              Apple, Inc
-Expires: 26 April 2021                                   23 October 2020
+Expires: 4 June 2021                                     1 December 2020
 
 
                 Cookies: HTTP State Management Mechanism
@@ -50,15 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-
-
-
-West & Wilander           Expires 26 April 2021                 [Page 1]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
-   This Internet-Draft will expire on 26 April 2021.
+   This Internet-Draft will expire on 4 June 2021.
 
 Copyright Notice
 
@@ -88,97 +80,81 @@ Copyright Notice
 
 Table of Contents
 
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   4
-   2.  Conventions . . . . . . . . . . . . . . . . . . . . . . . . .   5
-     2.1.  Conformance Criteria  . . . . . . . . . . . . . . . . . .   5
-     2.2.  Syntax Notation . . . . . . . . . . . . . . . . . . . . .   5
-     2.3.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   6
-   3.  Overview  . . . . . . . . . . . . . . . . . . . . . . . . . .   7
-     3.1.  Examples  . . . . . . . . . . . . . . . . . . . . . . . .   7
-   4.  Server Requirements . . . . . . . . . . . . . . . . . . . . .   9
-     4.1.  Set-Cookie  . . . . . . . . . . . . . . . . . . . . . . .   9
-       4.1.1.  Syntax  . . . . . . . . . . . . . . . . . . . . . . .   9
-       4.1.2.  Semantics (Non-Normative) . . . . . . . . . . . . . .  11
-       4.1.3.  Cookie Name Prefixes  . . . . . . . . . . . . . . . .  14
-     4.2.  Cookie  . . . . . . . . . . . . . . . . . . . . . . . . .  16
-       4.2.1.  Syntax  . . . . . . . . . . . . . . . . . . . . . . .  16
-       4.2.2.  Semantics . . . . . . . . . . . . . . . . . . . . . .  16
-   5.  User Agent Requirements . . . . . . . . . . . . . . . . . . .  16
-     5.1.  Subcomponent Algorithms . . . . . . . . . . . . . . . . .  17
-       5.1.1.  Dates . . . . . . . . . . . . . . . . . . . . . . . .  17
-
-
-
-West & Wilander           Expires 26 April 2021                 [Page 2]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
-       5.1.2.  Canonicalized Host Names  . . . . . . . . . . . . . .  18
-       5.1.3.  Domain Matching . . . . . . . . . . . . . . . . . . .  19
-       5.1.4.  Paths and Path-Match  . . . . . . . . . . . . . . . .  19
-     5.2.  "Same-site" and "cross-site" Requests . . . . . . . . . .  20
-       5.2.1.  Document-based requests . . . . . . . . . . . . . . .  21
-       5.2.2.  Worker-based requests . . . . . . . . . . . . . . . .  22
-     5.3.  The Set-Cookie Header . . . . . . . . . . . . . . . . . .  23
-       5.3.1.  The Expires Attribute . . . . . . . . . . . . . . . .  25
-       5.3.2.  The Max-Age Attribute . . . . . . . . . . . . . . . .  25
-       5.3.3.  The Domain Attribute  . . . . . . . . . . . . . . . .  26
-       5.3.4.  The Path Attribute  . . . . . . . . . . . . . . . . .  26
-       5.3.5.  The Secure Attribute  . . . . . . . . . . . . . . . .  27
-       5.3.6.  The HttpOnly Attribute  . . . . . . . . . . . . . . .  27
-       5.3.7.  The SameSite Attribute  . . . . . . . . . . . . . . .  27
-     5.4.  Storage Model . . . . . . . . . . . . . . . . . . . . . .  28
-     5.5.  The Cookie Header . . . . . . . . . . . . . . . . . . . .  33
-   6.  Implementation Considerations . . . . . . . . . . . . . . . .  35
-     6.1.  Limits  . . . . . . . . . . . . . . . . . . . . . . . . .  35
-     6.2.  Application Programming Interfaces  . . . . . . . . . . .  36
-     6.3.  IDNA Dependency and Migration . . . . . . . . . . . . . .  36
-   7.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  36
-     7.1.  Third-Party Cookies . . . . . . . . . . . . . . . . . . .  37
-     7.2.  User Controls . . . . . . . . . . . . . . . . . . . . . .  37
-     7.3.  Expiration Dates  . . . . . . . . . . . . . . . . . . . .  38
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  38
-     8.1.  Overview  . . . . . . . . . . . . . . . . . . . . . . . .  38
-     8.2.  Ambient Authority . . . . . . . . . . . . . . . . . . . .  39
-     8.3.  Clear Text  . . . . . . . . . . . . . . . . . . . . . . .  39
-     8.4.  Session Identifiers . . . . . . . . . . . . . . . . . . .  40
-     8.5.  Weak Confidentiality  . . . . . . . . . . . . . . . . . .  41
-     8.6.  Weak Integrity  . . . . . . . . . . . . . . . . . . . . .  41
-     8.7.  Reliance on DNS . . . . . . . . . . . . . . . . . . . . .  42
-     8.8.  SameSite Cookies  . . . . . . . . . . . . . . . . . . . .  42
-       8.8.1.  Defense in depth  . . . . . . . . . . . . . . . . . .  42
-       8.8.2.  Top-level Navigations . . . . . . . . . . . . . . . .  43
-       8.8.3.  Mashups and Widgets . . . . . . . . . . . . . . . . .  43
-       8.8.4.  Server-controlled . . . . . . . . . . . . . . . . . .  44
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  44
-     9.1.  Cookie  . . . . . . . . . . . . . . . . . . . . . . . . .  44
-     9.2.  Set-Cookie  . . . . . . . . . . . . . . . . . . . . . . .  44
-     9.3.  Cookie Attribute Registry . . . . . . . . . . . . . . . .  45
-       9.3.1.  Procedure . . . . . . . . . . . . . . . . . . . . . .  45
-       9.3.2.  Registration  . . . . . . . . . . . . . . . . . . . .  45
-   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  45
-     10.1.  Normative References . . . . . . . . . . . . . . . . . .  45
-     10.2.  Informative References . . . . . . . . . . . . . . . . .  47
-   Appendix A.  Changes  . . . . . . . . . . . . . . . . . . . . . .  49
-     A.1.  draft-ietf-httpbis-rfc6265bis-00  . . . . . . . . . . . .  49
-
-
-
-West & Wilander           Expires 26 April 2021                 [Page 3]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
-     A.2.  draft-ietf-httpbis-rfc6265bis-01  . . . . . . . . . . . .  49
-     A.3.  draft-ietf-httpbis-rfc6265bis-02  . . . . . . . . . . . .  50
-     A.4.  draft-ietf-httpbis-rfc6265bis-03  . . . . . . . . . . . .  50
-     A.5.  draft-ietf-httpbis-rfc6265bis-04  . . . . . . . . . . . .  51
-     A.6.  draft-ietf-httpbis-rfc6265bis-05  . . . . . . . . . . . .  51
-     A.7.  draft-ietf-httpbis-rfc6265bis-06  . . . . . . . . . . . .  51
-     A.8.  draft-ietf-httpbis-rfc6265bis-07  . . . . . . . . . . . .  52
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  52
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  52
+   1.  Introduction
+   2.  Conventions
+     2.1.  Conformance Criteria
+     2.2.  Syntax Notation
+     2.3.  Terminology
+   3.  Overview
+     3.1.  Examples
+   4.  Server Requirements
+     4.1.  Set-Cookie
+       4.1.1.  Syntax
+       4.1.2.  Semantics (Non-Normative)
+       4.1.3.  Cookie Name Prefixes
+     4.2.  Cookie
+       4.2.1.  Syntax
+       4.2.2.  Semantics
+   5.  User Agent Requirements
+     5.1.  Subcomponent Algorithms
+       5.1.1.  Dates
+       5.1.2.  Canonicalized Host Names
+       5.1.3.  Domain Matching
+       5.1.4.  Paths and Path-Match
+     5.2.  "Same-site" and "cross-site" Requests
+       5.2.1.  Document-based requests
+       5.2.2.  Worker-based requests
+     5.3.  The Set-Cookie Header
+       5.3.1.  The Expires Attribute
+       5.3.2.  The Max-Age Attribute
+       5.3.3.  The Domain Attribute
+       5.3.4.  The Path Attribute
+       5.3.5.  The Secure Attribute
+       5.3.6.  The HttpOnly Attribute
+       5.3.7.  The SameSite Attribute
+     5.4.  Storage Model
+     5.5.  The Cookie Header
+   6.  Implementation Considerations
+     6.1.  Limits
+     6.2.  Application Programming Interfaces
+     6.3.  IDNA Dependency and Migration
+   7.  Privacy Considerations
+     7.1.  Third-Party Cookies
+     7.2.  User Controls
+     7.3.  Expiration Dates
+   8.  Security Considerations
+     8.1.  Overview
+     8.2.  Ambient Authority
+     8.3.  Clear Text
+     8.4.  Session Identifiers
+     8.5.  Weak Confidentiality
+     8.6.  Weak Integrity
+     8.7.  Reliance on DNS
+     8.8.  SameSite Cookies
+       8.8.1.  Defense in depth
+       8.8.2.  Top-level Navigations
+       8.8.3.  Mashups and Widgets
+       8.8.4.  Server-controlled
+   9.  IANA Considerations
+     9.1.  Cookie
+     9.2.  Set-Cookie
+     9.3.  Cookie Attribute Registry
+       9.3.1.  Procedure
+       9.3.2.  Registration
+   10. References
+     10.1.  Normative References
+     10.2.  Informative References
+   Appendix A.  Changes
+     A.1.  draft-ietf-httpbis-rfc6265bis-00
+     A.2.  draft-ietf-httpbis-rfc6265bis-01
+     A.3.  draft-ietf-httpbis-rfc6265bis-02
+     A.4.  draft-ietf-httpbis-rfc6265bis-03
+     A.5.  draft-ietf-httpbis-rfc6265bis-04
+     A.6.  draft-ietf-httpbis-rfc6265bis-05
+     A.7.  draft-ietf-httpbis-rfc6265bis-06
+     A.8.  draft-ietf-httpbis-rfc6265bis-07
+   Acknowledgements
+   Authors' Addresses
 
 1.  Introduction
 
@@ -216,15 +192,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    in Section 5, in order to maximize interoperability with existing
    servers that do not conform to the well-behaved profile defined in
    Section 4.
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                 [Page 4]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
    This document specifies the syntax and semantics of these headers as
    they are actually used on the Internet.  In particular, this document
@@ -274,14 +241,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    The OWS (optional whitespace) and BWS (bad whitespace) rules are
    defined in Section 3.2.3 of [RFC7230].
 
-
-
-
-West & Wilander           Expires 26 April 2021                 [Page 5]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
 2.3.  Terminology
 
    The terms "user agent", "client", "server", "proxy", and "origin
@@ -330,14 +289,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    The term "request", as well as a request's "client", "current url",
    "method", and "target browsing context", are defined in [FETCH].
 
-
-
-
-West & Wilander           Expires 26 April 2021                 [Page 6]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
 3.  Overview
 
    This section outlines a way for an origin server to send state
@@ -384,16 +335,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
 
    Cookie: SID=31d4d96e407aad42
 
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                 [Page 7]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
    The server can alter the default scope of the cookie using the Path
    and Domain attributes.  For example, the server can instruct the user
    agent to return the cookie to every path and every subdomain of
@@ -439,17 +380,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
 
    Cookie: SID=31d4d96e407aad42; lang=en-US
 
-
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                 [Page 8]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
    Finally, to remove a cookie, the server returns a Set-Cookie header
    with an expiration date in the past.  The server will be successful
    in removing the cookie only if the Path and the Domain attribute in
@@ -481,30 +411,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    a name-value-pair, followed by zero or more attribute-value pairs.
    Servers SHOULD NOT send Set-Cookie headers that fail to conform to
    the following grammar:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                 [Page 9]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
    set-cookie-header = "Set-Cookie:" SP BWS set-cookie-string
    set-cookie-string = BWS cookie-pair *( BWS ";" OWS cookie-av )
@@ -553,15 +459,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    store arbitrary data in a cookie-value SHOULD encode that data, for
    example, using Base64 [RFC4648].
 
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 10]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
    Per the grammar above, the cookie-value MAY be wrapped in DQUOTE
    characters.  Note that in this case, the initial and trailing DQUOTE
    characters are not stripped.  They are part of the cookie-value, and
@@ -609,15 +506,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    Notice that servers can delete cookies by sending the user agent a
    new cookie with an Expires attribute with a value in the past.
 
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 11]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
    Unless the cookie's attributes indicate otherwise, the cookie is
    returned only to the origin server (and not, for example, to any
    subdomains), and it expires at the end of the current session (as
@@ -661,18 +549,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    a trailing %x2E ("."), if present, will cause the user agent to
    ignore the attribute.)  If the server omits the Domain attribute, the
    user agent will return the cookie only to the origin server.
-
-
-
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 12]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
    WARNING: Some existing user agents treat an absent Domain attribute
    as if the Domain attribute were present and contained the current
@@ -723,13 +599,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    cookies from an insecure channel, disrupting their integrity (see
    Section 8.6 for more details).
 
-
-
-West & Wilander           Expires 26 April 2021                [Page 13]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
 4.1.2.6.  The HttpOnly Attribute
 
    The HttpOnly attribute limits the scope of the cookie to HTTP
@@ -778,14 +647,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    The normative requirements for the prefixes described below are
    detailed in the storage model algorithm defined in Section 5.4.
 
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 14]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
 4.1.3.1.  The "__Secure-" Prefix
 
    If a cookie's name begins with a case-sensitive match for the string
@@ -832,15 +693,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    (e.g. "https://site.example/"), and rejected otherwise:
 
    Set-Cookie: __Host-SID=12345; Secure; Path=/
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 15]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
 4.2.  Cookie
 
@@ -890,14 +742,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    experiments have shown that such strictness reduces the likelihood
    that a user agent will be able to interoperate with existing servers.
 
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 16]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
 5.1.  Subcomponent Algorithms
 
    This section defines some algorithms used by user agents to process
@@ -943,16 +787,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
            month flag and set the day-of-month-value to the number
            denoted by the date-token.  Skip the remaining sub-steps and
            continue to the next date-token.
-
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 17]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
        3.  If the found-month flag is not set and the date-token matches
            the month production, set the found-month flag and set the
@@ -1003,13 +837,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    A canonicalized host name is the string generated by the following
    algorithm:
 
-
-
-West & Wilander           Expires 26 April 2021                [Page 18]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
    1.  Convert the host name to a sequence of individual domain name
        labels.
 
@@ -1059,13 +886,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    3.  If the uri-path contains no more than one %x2F ("/") character,
        output %x2F ("/") and skip the remaining step.
 
-
-
-West & Wilander           Expires 26 April 2021                [Page 19]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
    4.  Output the characters of the uri-path from the first character up
        to, but not including, the right-most %x2F ("/").
 
@@ -1113,14 +933,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
 
    The request's client's "site for cookies" is calculated depending
    upon its client's type, as described in the following subsections:
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 20]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
 5.2.1.  Document-based requests
 
@@ -1170,14 +982,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
 
    5.  Return "top-origin"'s host's registrable domain.
 
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 21]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
 5.2.2.  Worker-based requests
 
    Worker-driven requests aren't as clear-cut as document-driven
@@ -1225,14 +1029,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    Service Workers are more complicated, as they act as a completely
    separate execution context with only tangential relationship to the
    Document which registered them.
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 22]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
    Requests which simply pass through a Service Worker will be handled
    as described above: the request's client will be the Document or
@@ -1282,14 +1078,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
 
        Otherwise:
 
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 23]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
        1.  The name-value-pair string consists of all the characters
            contained in the set-cookie-string, and the unparsed-
            attributes is the empty string.
@@ -1338,14 +1126,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
            consists of the characters after the first %x3D ("=")
            character.
 
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 24]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
        Otherwise:
 
        1.  The attribute-name string consists of the entire cookie-av
@@ -1392,15 +1172,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
 
    If the attribute-name case-insensitively matches the string "Max-
    Age", the user agent MUST process the cookie-av as follows.
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 25]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
    1.  If the first character of the attribute-value is not a DIGIT or a
        "-" character, ignore the cookie-av.
@@ -1451,13 +1222,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
 
        1.  Let cookie-path be the default-path.
 
-
-
-West & Wilander           Expires 26 April 2021                [Page 26]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
        Otherwise:
 
        1.  Let cookie-path be the attribute-value.
@@ -1498,21 +1262,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    Note: This algorithm maps the "None" value, as well as any unknown
    value, to the "None" behavior, which is helpful for backwards
    compatibility when introducing new variants.
-
-
-
-
-
-
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 27]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
 5.3.7.1.  "Strict" and "Lax" enforcement
 
@@ -1563,13 +1312,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    2.   If cookie-name is empty and cookie-value is empty, abort these
         steps and ignore the cookie entirely.
 
-
-
-West & Wilander           Expires 26 April 2021                [Page 28]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
    3.   Create a new cookie with name cookie-name, value cookie-value.
         Set the creation-time and the last-access-time to the current
         date and time.
@@ -1619,13 +1361,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
 
             1.  Let the domain-attribute be the empty string.
 
-
-
-West & Wilander           Expires 26 April 2021                [Page 29]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
             Otherwise:
 
             1.  Ignore the cookie entirely and abort these steps.
@@ -1671,16 +1406,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    11.  If the cookie-attribute-list contains an attribute with an
         attribute-name of "HttpOnly", set the cookie's http-only-flag to
         true.  Otherwise, set the cookie's http-only-flag to false.
-
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 30]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
    12.  If the cookie was received from a "non-HTTP" API and the
         cookie's http-only-flag is true, abort these steps and ignore
@@ -1728,15 +1453,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
         2.  If the cookie was received from a "same-site" request (as
             defined in Section 5.2), skip the remaining substeps and
             continue processing the cookie.
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 31]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
         3.  If the cookie was received from a request which is
             navigating a top-level browsing context [HTML] (e.g. if the
@@ -1787,13 +1503,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
 
    19.  Insert the newly-created cookie into the cookie store.
 
-
-
-West & Wilander           Expires 26 April 2021                [Page 32]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
    A cookie is "expired" if the cookie has an expiry date in the past.
 
    The user agent MUST evict all expired cookies from the cookie store
@@ -1843,13 +1552,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    request, the user agent MUST send the cookie-string (defined below)
    as the value of the header field.
 
-
-
-West & Wilander           Expires 26 April 2021                [Page 33]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
    The user agent MUST use an algorithm equivalent to the following
    algorithm to compute the cookie-string from a cookie store and a
    request-uri:
@@ -1896,15 +1598,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
 
    2.  The user agent SHOULD sort the cookie-list in the following
        order:
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 34]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
        *  Cookies with longer paths are listed before cookies with
           shorter paths.
@@ -1953,14 +1646,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
       length of the cookie's name, value, and attributes).
 
    *  At least 50 cookies per domain.
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 35]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
    *  At least 3000 cookies total.
 
@@ -2011,13 +1696,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    they are persistent across user agent sessions and can be shared
    between hosts.
 
-
-
-West & Wilander           Expires 26 April 2021                [Page 36]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
 7.1.  Third-Party Cookies
 
    Particularly worrisome are so-called "third-party" cookies.  In
@@ -2063,17 +1741,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    a Cookie header in outbound HTTP requests and the user agent MUST NOT
    process Set-Cookie headers in inbound HTTP responses.
 
-
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 37]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
    Some user agents provide users the option of preventing persistent
    storage of cookies across sessions.  When configured thusly, user
    agents MUST treat all received cookies as if the persistent-flag were
@@ -2115,20 +1782,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    below).  In addition, by default, cookies do not provide
    confidentiality or integrity from network attackers, even when used
    in conjunction with HTTPS.
-
-
-
-
-
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 38]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
 8.2.  Ambient Authority
 
@@ -2179,13 +1832,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    attacker from transplanting a cookie from one user agent to another
    or from replaying the cookie at a later time.
 
-
-
-West & Wilander           Expires 26 April 2021                [Page 39]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
    In addition to encrypting and signing the contents of every cookie,
    servers that require a higher level of security SHOULD use the Cookie
    and Set-Cookie headers only over a secure channel.  When using
@@ -2233,15 +1879,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    server directly, possibly obtaining the user's authority or
    confidential information.
 
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 40]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
 8.5.  Weak Confidentiality
 
    Cookies do not provide isolation by port.  If a cookie is readable by
@@ -2282,21 +1919,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    this cookie from a cookie it set itself.  The foo.site.example server
    might be able to leverage this ability to mount an attack against
    bar.site.example.
-
-
-
-
-
-
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 41]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
    Even though the Set-Cookie header supports the Path attribute, the
    Path attribute does not provide any integrity protection because the
@@ -2344,15 +1966,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    a site's defense against CSRF, as same-site navigations and
    submissions can certainly be executed in conjunction with other
    attack vectors such as cross-site scripting.
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 42]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
    Developers are strongly encouraged to deploy the usual server-side
    defenses (CSRF tokens, ensuring that "safe" HTTP methods are
@@ -2402,14 +2015,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    authentication in a cross-site context; these mechanisms will not
    function as intended with same-site cookies.
 
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 43]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
 8.8.4.  Server-controlled
 
    SameSite cookies in and of themselves don't do anything to address
@@ -2453,18 +2058,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    Author/Change controller:  IETF
 
    Specification document:  this specification (Section 5.3)
-
-
-
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 44]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
 9.3.  Cookie Attribute Registry
 
@@ -2514,14 +2107,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
 
 10.1.  Normative References
 
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 45]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
    [FETCH]    van Kesteren, A., "Fetch", n.d.,
               <https://fetch.spec.whatwg.org/>.
 
@@ -2567,16 +2152,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
    [RFC6454]  Barth, A., "The Web Origin Concept", RFC 6454,
               DOI 10.17487/RFC6454, December 2011,
               <https://www.rfc-editor.org/info/rfc6454>.
-
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 46]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
    [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
               Protocol (HTTP/1.1): Message Syntax and Routing",
@@ -2624,15 +2199,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
               Computer and communications security (pages 75-88),
               October 2008,
               <http://portal.acm.org/citation.cfm?id=1455770.1455782>.
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 47]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
    [I-D.ietf-httpbis-cookie-alone]
               West, M., "Deprecate modification of 'secure' cookies from
@@ -2683,13 +2249,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
               Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
               <https://www.rfc-editor.org/info/rfc4648>.
 
-
-
-West & Wilander           Expires 26 April 2021                [Page 48]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
    [RFC5895]  Resnick, P. and P. Hoffman, "Mapping Characters for
               Internationalized Domain Names in Applications (IDNA)
               2008", RFC 5895, DOI 10.17487/RFC5895, September 2010,
@@ -2739,13 +2298,6 @@ A.2.  draft-ietf-httpbis-rfc6265bis-01
       'secure' flag, and to overwrite cookies whose 'secure' flag is
       true.
 
-
-
-West & Wilander           Expires 26 April 2021                [Page 49]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
-
    *  Merged the recommendations from
       [I-D.ietf-httpbis-cookie-prefixes], adding "__Secure-" and
       "__Host-" cookie name prefix processing instructions.
@@ -2790,17 +2342,6 @@ A.4.  draft-ietf-httpbis-rfc6265bis-03
    *  Clarified handling of invalid SameSite values:
       https://github.com/httpwg/http-extensions/issues/389
       (https://github.com/httpwg/http-extensions/issues/389)
-
-
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 50]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
    *  Reflect widespread implementation practice of including a cookie's
       "host-only-flag" when calculating its uniqueness:
@@ -2847,16 +2388,6 @@ A.7.  draft-ietf-httpbis-rfc6265bis-06
       issues/1059), https://github.com/httpwg/http-extensions/
       issues/1158 (https://github.com/httpwg/http-extensions/
       issues/1158).
-
-
-
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 51]
-
-Internet-Draft  Cookies: HTTP State Management Mechanism    October 2020
-
 
    *  Created a registry for cookie attribute names:
       https://github.com/httpwg/http-extensions/pull/1060
@@ -2906,7 +2437,3 @@ Authors' Addresses
    Apple, Inc
 
    Email: wilander@apple.com
-
-
-
-West & Wilander           Expires 26 April 2021                [Page 52]

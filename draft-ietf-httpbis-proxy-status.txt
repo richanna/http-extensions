@@ -5,8 +5,8 @@
 HTTP                                                       M. Nottingham
 Internet-Draft                                                    Fastly
 Intended status: Standards Track                               P. Sikora
-Expires: 26 April 2021                                            Google
-                                                         23 October 2020
+Expires: 4 June 2021                                              Google
+                                                         1 December 2020
 
 
               The Proxy-Status HTTP Response Header Field
@@ -48,15 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 April 2021.
-
-
-
-
-Nottingham & Sikora       Expires 26 April 2021                 [Page 1]
-
-Internet-Draft                Proxy-Status                  October 2020
-
+   This Internet-Draft will expire on 4 June 2021.
 
 Copyright Notice
 
@@ -74,66 +66,58 @@ Copyright Notice
 
 Table of Contents
 
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
-     1.1.  Notational Conventions  . . . . . . . . . . . . . . . . .   4
-   2.  The Proxy-Status HTTP Field . . . . . . . . . . . . . . . . .   4
-     2.1.  Proxy-Status Parameters . . . . . . . . . . . . . . . . .   5
-       2.1.1.  next-hop  . . . . . . . . . . . . . . . . . . . . . .   5
-       2.1.2.  next-protocol . . . . . . . . . . . . . . . . . . . .   6
-       2.1.3.  error . . . . . . . . . . . . . . . . . . . . . . . .   6
-       2.1.4.  details . . . . . . . . . . . . . . . . . . . . . . .   7
-     2.2.  Defining New Proxy-Status Parameters  . . . . . . . . . .   7
-     2.3.  Proxy Error Types . . . . . . . . . . . . . . . . . . . .   8
-       2.3.1.  DNS Timeout . . . . . . . . . . . . . . . . . . . . .   8
-       2.3.2.  DNS Error . . . . . . . . . . . . . . . . . . . . . .   8
-       2.3.3.  Destination Not Found . . . . . . . . . . . . . . . .   8
-       2.3.4.  Destination Unavailable . . . . . . . . . . . . . . .   9
-       2.3.5.  Destination IP Prohibited . . . . . . . . . . . . . .   9
-       2.3.6.  Destination IP Unroutable . . . . . . . . . . . . . .   9
-       2.3.7.  Connection Refused  . . . . . . . . . . . . . . . . .   9
-       2.3.8.  Connection Terminated . . . . . . . . . . . . . . . .  10
-       2.3.9.  Connection Timeout  . . . . . . . . . . . . . . . . .  10
-       2.3.10. Connection Read Timeout . . . . . . . . . . . . . . .  10
-       2.3.11. Connection Write Timeout  . . . . . . . . . . . . . .  10
-       2.3.12. Connection Limit Reached  . . . . . . . . . . . . . .  11
-       2.3.13. TLS Protocol Error  . . . . . . . . . . . . . . . . .  11
-       2.3.14. TLS Certificate Error . . . . . . . . . . . . . . . .  11
-       2.3.15. TLS Alert Received  . . . . . . . . . . . . . . . . .  11
-       2.3.16. HTTP Request Error  . . . . . . . . . . . . . . . . .  12
-       2.3.17. HTTP Request Denied . . . . . . . . . . . . . . . . .  12
-       2.3.18. HTTP Incomplete Response  . . . . . . . . . . . . . .  12
-       2.3.19. HTTP Response Header Block Too Large  . . . . . . . .  13
-       2.3.20. HTTP Response Header Too Large  . . . . . . . . . . .  13
-       2.3.21. HTTP Response Body Too Large  . . . . . . . . . . . .  13
-       2.3.22. HTTP Response Transfer-Coding Error . . . . . . . . .  14
-
-
-
-Nottingham & Sikora       Expires 26 April 2021                 [Page 2]
-
-Internet-Draft                Proxy-Status                  October 2020
-
-
-       2.3.23. HTTP Response Content-Coding Error  . . . . . . . . .  14
-       2.3.24. HTTP Response Timeout . . . . . . . . . . . . . . . .  14
-       2.3.25. HTTP Upgrade Failed . . . . . . . . . . . . . . . . .  14
-       2.3.26. HTTP Protocol Error . . . . . . . . . . . . . . . . .  15
-       2.3.27. Proxy Internal Response . . . . . . . . . . . . . . .  15
-       2.3.28. Proxy Internal Error  . . . . . . . . . . . . . . . .  15
-       2.3.29. Proxy Configuration Error . . . . . . . . . . . . . .  15
-       2.3.30. Proxy Loop Detected . . . . . . . . . . . . . . . . .  16
-     2.4.  Defining New Proxy Error Types  . . . . . . . . . . . . .  16
-   3.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  17
-   4.  Security Considerations . . . . . . . . . . . . . . . . . . .  17
-   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  17
-     5.1.  Normative References  . . . . . . . . . . . . . . . . . .  17
-     5.2.  Informative References  . . . . . . . . . . . . . . . . .  18
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  18
+   1.  Introduction
+     1.1.  Notational Conventions
+   2.  The Proxy-Status HTTP Field
+     2.1.  Proxy-Status Parameters
+       2.1.1.  next-hop
+       2.1.2.  next-protocol
+       2.1.3.  error
+       2.1.4.  details
+     2.2.  Defining New Proxy-Status Parameters
+     2.3.  Proxy Error Types
+       2.3.1.  DNS Timeout
+       2.3.2.  DNS Error
+       2.3.3.  Destination Not Found
+       2.3.4.  Destination Unavailable
+       2.3.5.  Destination IP Prohibited
+       2.3.6.  Destination IP Unroutable
+       2.3.7.  Connection Refused
+       2.3.8.  Connection Terminated
+       2.3.9.  Connection Timeout
+       2.3.10. Connection Read Timeout
+       2.3.11. Connection Write Timeout
+       2.3.12. Connection Limit Reached
+       2.3.13. TLS Protocol Error
+       2.3.14. TLS Certificate Error
+       2.3.15. TLS Alert Received
+       2.3.16. HTTP Request Error
+       2.3.17. HTTP Request Denied
+       2.3.18. HTTP Incomplete Response
+       2.3.19. HTTP Response Header Block Too Large
+       2.3.20. HTTP Response Header Too Large
+       2.3.21. HTTP Response Body Too Large
+       2.3.22. HTTP Response Transfer-Coding Error
+       2.3.23. HTTP Response Content-Coding Error
+       2.3.24. HTTP Response Timeout
+       2.3.25. HTTP Upgrade Failed
+       2.3.26. HTTP Protocol Error
+       2.3.27. Proxy Internal Response
+       2.3.28. Proxy Internal Error
+       2.3.29. Proxy Configuration Error
+       2.3.30. Proxy Loop Detected
+     2.4.  Defining New Proxy Error Types
+   3.  IANA Considerations
+   4.  Security Considerations
+   5.  References
+     5.1.  Normative References
+     5.2.  Informative References
+   Authors' Addresses
 
 1.  Introduction
 
-   HTTP intermediaries - including both forward proxies and gateways
-   (also known as "reverse proxies") - have become an increasingly
+   HTTP intermediaries -- including both forward proxies and gateways
+   (also known as "reverse proxies") -- have become an increasingly
    significant part of HTTP deployments.  In particular, reverse proxies
    and Content Delivery Networks (CDNs) form part of the critical
    infrastructure of many Web sites.
@@ -157,18 +141,6 @@ Internet-Draft                Proxy-Status                  October 2020
    response, Section 2.1 enumerates the kind of information that can be
    conveyed, and Section 2.3 defines a set of error types for use when a
    proxy generates the response.
-
-
-
-
-
-
-
-
-Nottingham & Sikora       Expires 26 April 2021                 [Page 3]
-
-Internet-Draft                Proxy-Status                  October 2020
-
 
 1.1.  Notational Conventions
 
@@ -216,16 +188,6 @@ Internet-Draft                Proxy-Status                  October 2020
    configured to, or when the request contains a header that activates a
    debugging mode.
 
-
-
-
-
-
-Nottingham & Sikora       Expires 26 April 2021                 [Page 4]
-
-Internet-Draft                Proxy-Status                  October 2020
-
-
    The list members identify the intermediary that inserted the value,
    and MUST have a type of either sf-string or sf-token.  Depending on
    the deployment, this might be a product or service name (e.g.,
@@ -242,13 +204,13 @@ Internet-Draft                Proxy-Status                  October 2020
    preserve the existing contents of the field, to allow debugging of
    the entire chain of intermediaries handling the request.
 
-   Proxy-Status MAY be sent in HTTP trailers, but - as with all trailers
-   - it might be silently discarded along the path to the user agent, so
-   this SHOULD NOT be done unless it is not possible to send it in
-   headers.  For example, if an intermediary is streaming a response and
-   the upstream connection suddenly terminates, Proxy-Status can be
-   appended to the trailers of the outgoing message (since the headers
-   have already been sent).
+   Proxy-Status MAY be sent in HTTP trailers, but -- as with all
+   trailers -- it might be silently discarded along the path to the user
+   agent, so this SHOULD NOT be done unless it is not possible to send
+   it in headers.  For example, if an intermediary is streaming a
+   response and the upstream connection suddenly terminates, Proxy-
+   Status can be appended to the trailers of the outgoing message (since
+   the headers have already been sent).
 
    Note that there are various security considerations for
    intermediaries using the Proxy-Status field; see Section 4.
@@ -270,17 +232,6 @@ Internet-Draft                Proxy-Status                  October 2020
    For example:
 
    Proxy-Status: cdn.example.org; next-hop=backend.example.org
-
-
-
-
-
-
-
-Nottingham & Sikora       Expires 26 April 2021                 [Page 5]
-
-Internet-Draft                Proxy-Status                  October 2020
-
 
 2.1.2.  next-protocol
 
@@ -329,15 +280,6 @@ Internet-Draft                Proxy-Status                  October 2020
    http_protocol_error) that can be used.  If they are not suitable,
    consider registering a new Proxy Error Type (see Section 2.4).
 
-
-
-
-
-Nottingham & Sikora       Expires 26 April 2021                 [Page 6]
-
-Internet-Draft                Proxy-Status                  October 2020
-
-
    Each Proxy Error Type has a Recommended HTTP Status Code.  When
    generating a HTTP response containing "error", its HTTP status code
    SHOULD be set to the Recommended HTTP Status Code.  However, there
@@ -384,15 +326,6 @@ Internet-Draft                Proxy-Status                  October 2020
    *  Description: [a description of the parameter semantics and value]
 
    *  Reference: [to a specification defining this parameter]
-
-
-
-
-
-Nottingham & Sikora       Expires 26 April 2021                 [Page 7]
-
-Internet-Draft                Proxy-Status                  October 2020
-
 
    See the registry at https://iana.org/assignments/http-proxy-status
    (https://iana.org/assignments/http-proxy-status) for details on where
@@ -443,13 +376,6 @@ Internet-Draft                Proxy-Status                  October 2020
 
    *  Recommended HTTP status code: 500
 
-
-
-Nottingham & Sikora       Expires 26 April 2021                 [Page 8]
-
-Internet-Draft                Proxy-Status                  October 2020
-
-
 2.3.4.  Destination Unavailable
 
    *  Name: destination_unavailable
@@ -494,17 +420,6 @@ Internet-Draft                Proxy-Status                  October 2020
    *  Extra Parameters: None.
 
    *  Recommended HTTP status code: 502
-
-
-
-
-
-
-
-Nottingham & Sikora       Expires 26 April 2021                 [Page 9]
-
-Internet-Draft                Proxy-Status                  October 2020
-
 
 2.3.8.  Connection Terminated
 
@@ -553,15 +468,6 @@ Internet-Draft                Proxy-Status                  October 2020
 
    *  Recommended HTTP status code: 504
 
-
-
-
-
-Nottingham & Sikora       Expires 26 April 2021                [Page 10]
-
-Internet-Draft                Proxy-Status                  October 2020
-
-
 2.3.12.  Connection Limit Reached
 
    *  Name: connnection_limit_reached
@@ -609,14 +515,6 @@ Internet-Draft                Proxy-Status                  October 2020
 
    *  Description: The intermediary received a TLS alert from the next
       hop.
-
-
-
-
-Nottingham & Sikora       Expires 26 April 2021                [Page 11]
-
-Internet-Draft                Proxy-Status                  October 2020
-
 
    *  Extra Parameters:
 
@@ -667,13 +565,6 @@ Internet-Draft                Proxy-Status                  October 2020
 
    *  Extra Parameters: None.
 
-
-
-Nottingham & Sikora       Expires 26 April 2021                [Page 12]
-
-Internet-Draft                Proxy-Status                  October 2020
-
-
    *  Recommended HTTP status code: 502
 
 2.3.19.  HTTP Response Header Block Too Large
@@ -721,14 +612,6 @@ Internet-Draft                Proxy-Status                  October 2020
          intermediary may have discarded or refused additional data.
 
    *  Recommended HTTP status code: 502
-
-
-
-
-Nottingham & Sikora       Expires 26 April 2021                [Page 13]
-
-Internet-Draft                Proxy-Status                  October 2020
-
 
 2.3.22.  HTTP Response Transfer-Coding Error
 
@@ -778,14 +661,6 @@ Internet-Draft                Proxy-Status                  October 2020
 
    *  Extra Parameters: None.
 
-
-
-
-Nottingham & Sikora       Expires 26 April 2021                [Page 14]
-
-Internet-Draft                Proxy-Status                  October 2020
-
-
    *  Recommended HTTP status code: 502
 
 2.3.26.  HTTP Protocol Error
@@ -832,15 +707,6 @@ Internet-Draft                Proxy-Status                  October 2020
 2.3.29.  Proxy Configuration Error
 
    *  Name: proxy_configuration_error
-
-
-
-
-
-Nottingham & Sikora       Expires 26 April 2021                [Page 15]
-
-Internet-Draft                Proxy-Status                  October 2020
-
 
    *  Description: The intermediary encountered an error regarding its
       configuration.
@@ -890,14 +756,6 @@ Internet-Draft                Proxy-Status                  October 2020
 
    *  Name: [a name for the Proxy Error Type that matches sf-token]
 
-
-
-
-Nottingham & Sikora       Expires 26 April 2021                [Page 16]
-
-Internet-Draft                Proxy-Status                  October 2020
-
-
    *  Description: [a description of the conditions that generate the
       Proxy Error Type]
 
@@ -946,14 +804,6 @@ Internet-Draft                Proxy-Status                  October 2020
               <http://www.ietf.org/internet-drafts/draft-ietf-httpbis-
               header-structure-19.txt>.
 
-
-
-
-Nottingham & Sikora       Expires 26 April 2021                [Page 17]
-
-Internet-Draft                Proxy-Status                  October 2020
-
-
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -1000,9 +850,3 @@ Authors' Addresses
    Google
 
    Email: piotrsikora@google.com
-
-
-
-
-
-Nottingham & Sikora       Expires 26 April 2021                [Page 18]

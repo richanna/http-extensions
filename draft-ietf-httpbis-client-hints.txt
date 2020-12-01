@@ -5,7 +5,7 @@
 HTTP                                                         I. Grigorik
 Internet-Draft                                                  Y. Weiss
 Intended status: Experimental                                     Google
-Expires: 26 April 2021                                   23 October 2020
+Expires: 4 June 2021                                     1 December 2020
 
 
                            HTTP Client Hints
@@ -48,22 +48,12 @@ Status of This Memo
    working documents as Internet-Drafts.  The list of current Internet-
    Drafts is at https://datatracker.ietf.org/drafts/current/.
 
-
-
-
-
-
-Grigorik & Weiss          Expires 26 April 2021                 [Page 1]
-
-Internet-Draft              HTTP Client Hints               October 2020
-
-
    Internet-Drafts are draft documents valid for a maximum of six months
    and may be updated, replaced, or obsoleted by other documents at any
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 April 2021.
+   This Internet-Draft will expire on 4 June 2021.
 
 Copyright Notice
 
@@ -81,50 +71,42 @@ Copyright Notice
 
 Table of Contents
 
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
-     1.1.  Notational Conventions  . . . . . . . . . . . . . . . . .   4
-   2.  Client Hint Request Header Fields . . . . . . . . . . . . . .   4
-     2.1.  Sending Client Hints  . . . . . . . . . . . . . . . . . .   5
-     2.2.  Server Processing of Client Hints . . . . . . . . . . . .   5
-   3.  Advertising Server Support  . . . . . . . . . . . . . . . . .   5
-     3.1.  The Accept-CH Response Header Field . . . . . . . . . . .   5
-     3.2.  Interaction with Caches . . . . . . . . . . . . . . . . .   6
-   4.  Security Considerations . . . . . . . . . . . . . . . . . . .   7
-     4.1.  Information Exposure  . . . . . . . . . . . . . . . . . .   7
-     4.2.  Deployment and Security Risks . . . . . . . . . . . . . .   9
-     4.3.  Abuse Detection . . . . . . . . . . . . . . . . . . . . .   9
-   5.  Cost of Sending Hints . . . . . . . . . . . . . . . . . . . .   9
-   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  10
-     6.1.  Accept-CH . . . . . . . . . . . . . . . . . . . . . . . .  10
-   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
-     7.1.  Normative References  . . . . . . . . . . . . . . . . . .  10
-     7.2.  Informative References  . . . . . . . . . . . . . . . . .  11
-   Appendix A.  Changes  . . . . . . . . . . . . . . . . . . . . . .  11
-     A.1.  Since -00 . . . . . . . . . . . . . . . . . . . . . . . .  11
-     A.2.  Since -01 . . . . . . . . . . . . . . . . . . . . . . . .  11
-     A.3.  Since -02 . . . . . . . . . . . . . . . . . . . . . . . .  12
-     A.4.  Since -03 . . . . . . . . . . . . . . . . . . . . . . . .  12
-     A.5.  Since -04 . . . . . . . . . . . . . . . . . . . . . . . .  12
-     A.6.  Since -05 . . . . . . . . . . . . . . . . . . . . . . . .  12
-
-
-
-Grigorik & Weiss          Expires 26 April 2021                 [Page 2]
-
-Internet-Draft              HTTP Client Hints               October 2020
-
-
-     A.7.  Since -06 . . . . . . . . . . . . . . . . . . . . . . . .  12
-     A.8.  Since -07 . . . . . . . . . . . . . . . . . . . . . . . .  12
-     A.9.  Since -08 . . . . . . . . . . . . . . . . . . . . . . . .  12
-     A.10. Since -09 . . . . . . . . . . . . . . . . . . . . . . . .  12
-     A.11. Since -10 . . . . . . . . . . . . . . . . . . . . . . . .  13
-     A.12. Since -11 . . . . . . . . . . . . . . . . . . . . . . . .  13
-     A.13. Since -12 . . . . . . . . . . . . . . . . . . . . . . . .  13
-     A.14. Since -13 . . . . . . . . . . . . . . . . . . . . . . . .  13
-     A.15. Since -14 . . . . . . . . . . . . . . . . . . . . . . . .  13
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  13
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  13
+   1.  Introduction
+     1.1.  Notational Conventions
+   2.  Client Hint Request Header Fields
+     2.1.  Sending Client Hints
+     2.2.  Server Processing of Client Hints
+   3.  Advertising Server Support
+     3.1.  The Accept-CH Response Header Field
+     3.2.  Interaction with Caches
+   4.  Security Considerations
+     4.1.  Information Exposure
+     4.2.  Deployment and Security Risks
+     4.3.  Abuse Detection
+   5.  Cost of Sending Hints
+   6.  IANA Considerations
+     6.1.  Accept-CH
+   7.  References
+     7.1.  Normative References
+     7.2.  Informative References
+   Appendix A.  Changes
+     A.1.  Since -00
+     A.2.  Since -01
+     A.3.  Since -02
+     A.4.  Since -03
+     A.5.  Since -04
+     A.6.  Since -05
+     A.7.  Since -06
+     A.8.  Since -07
+     A.9.  Since -08
+     A.10. Since -09
+     A.11. Since -10
+     A.12. Since -11
+     A.13. Since -12
+     A.14. Since -13
+     A.15. Since -14
+   Acknowledgements
+   Authors' Addresses
 
 1.  Introduction
 
@@ -162,13 +144,6 @@ Internet-Draft              HTTP Client Hints               October 2020
    headers to advertise their capabilities and characteristics, so that
    servers can select (or formulate) an appropriate response based on
    those request headers (or on other, implicit characteristics).
-
-
-
-Grigorik & Weiss          Expires 26 April 2021                 [Page 3]
-
-Internet-Draft              HTTP Client Hints               October 2020
-
 
    However, traditional proactive content negotiation techniques often
    mean that user agents send these request headers prolifically.  This
@@ -214,17 +189,6 @@ Internet-Draft              HTTP Client Hints               October 2020
    server to select an appropriate response.  Each one conveys user
    agent preferences that the server can use to adapt and optimize the
    response.
-
-
-
-
-
-
-
-Grigorik & Weiss          Expires 26 April 2021                 [Page 4]
-
-Internet-Draft              HTTP Client Hints               October 2020
-
 
 2.1.  Sending Client Hints
 
@@ -274,14 +238,6 @@ Internet-Draft              HTTP Client Hints               October 2020
    information through Client Hints SHOULD add Accept-CH response header
    to their responses as early as possible.
 
-
-
-
-Grigorik & Weiss          Expires 26 April 2021                 [Page 5]
-
-Internet-Draft              HTTP Client Hints               October 2020
-
-
    Accept-CH is a Structured Header [I-D.ietf-httpbis-header-structure].
    Its value MUST be an sf-list (Section 3.1 of
    [I-D.ietf-httpbis-header-structure]) whose members are tokens
@@ -291,7 +247,7 @@ Internet-Draft              HTTP Client Hints               October 2020
 
    For example:
 
-     Accept-CH: Sec-CH-Example, Sec-CH-Example-2
+   Accept-CH: Sec-CH-Example, Sec-CH-Example-2
 
    When a user agent receives an HTTP response containing "Accept-CH",
    that indicates that the origin opts-in to receive the indicated
@@ -325,20 +281,12 @@ Internet-Draft              HTTP Client Hints               October 2020
    the selected response and whether the selected response is
    appropriate for a later request.
 
-     Vary: Sec-CH-Example
+   Vary: Sec-CH-Example
 
    The above example indicates that the cache key needs to include the
    Sec-CH-Example header field.
 
-
-
-
-Grigorik & Weiss          Expires 26 April 2021                 [Page 6]
-
-Internet-Draft              HTTP Client Hints               October 2020
-
-
-     Vary: Sec-CH-Example, Sec-CH-Example-2
+   Vary: Sec-CH-Example, Sec-CH-Example-2
 
    The above example indicates that the cache key needs to include the
    Sec-CH-Example and Sec-CH-Example-2 header fields.
@@ -386,13 +334,6 @@ Internet-Draft              HTTP Client Hints               October 2020
    headers MUST NOT provide new information that is otherwise not made
    available to the application by the user agent, such as existing
    request headers, HTML, CSS, or JavaScript.
-
-
-
-Grigorik & Weiss          Expires 26 April 2021                 [Page 7]
-
-Internet-Draft              HTTP Client Hints               October 2020
-
 
    Such features need to take into account the following aspects of the
    information exposed:
@@ -443,13 +384,6 @@ Internet-Draft              HTTP Client Hints               October 2020
    site data, browsing history, browsing cache, cookies, or similar, are
    cleared.
 
-
-
-Grigorik & Weiss          Expires 26 April 2021                 [Page 8]
-
-Internet-Draft              HTTP Client Hints               October 2020
-
-
 4.2.  Deployment and Security Risks
 
    Deployment of new request headers requires several considerations:
@@ -497,14 +431,6 @@ Internet-Draft              HTTP Client Hints               October 2020
    when opting in to receive Client Hints, and SHOULD NOT opt-in to
    receive hints unless they are to be used for content adaptation
    purposes.
-
-
-
-
-Grigorik & Weiss          Expires 26 April 2021                 [Page 9]
-
-Internet-Draft              HTTP Client Hints               October 2020
-
 
    Due to request byte size increase, features relying on this document
    to define Client Hints MAY consider restricting sending those hints
@@ -554,14 +480,6 @@ Internet-Draft              HTTP Client Hints               October 2020
               DOI 10.17487/RFC3864, September 2004,
               <https://www.rfc-editor.org/info/rfc3864>.
 
-
-
-
-Grigorik & Weiss          Expires 26 April 2021                [Page 10]
-
-Internet-Draft              HTTP Client Hints               October 2020
-
-
    [RFC5234]  Crocker, D., Ed. and P. Overell, "Augmented BNF for Syntax
               Specifications: ABNF", STD 68, RFC 5234,
               DOI 10.17487/RFC5234, January 2008,
@@ -608,15 +526,6 @@ A.2.  Since -01
    *  Issue 215: Extended passive fingerprinting and mitigation
       considerations.
    *  Changed document status to experimental.
-
-
-
-
-
-Grigorik & Weiss          Expires 26 April 2021                [Page 11]
-
-Internet-Draft              HTTP Client Hints               October 2020
-
 
 A.3.  Since -02
 
@@ -665,15 +574,6 @@ A.10.  Since -09
 
    *  PR 1064: Fix merge issues with "cost of sending hints".
 
-
-
-
-
-Grigorik & Weiss          Expires 26 April 2021                [Page 12]
-
-Internet-Draft              HTTP Client Hints               October 2020
-
-
 A.11.  Since -10
 
    *  PR 1072: LC feedback from Julian Reschke.
@@ -720,9 +620,3 @@ Authors' Addresses
 
    Email: yoav@yoav.ws
    URI:   https://blog.yoav.ws/
-
-
-
-
-
-Grigorik & Weiss          Expires 26 April 2021                [Page 13]
