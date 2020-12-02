@@ -5,8 +5,8 @@
 HTTP                                                            R. Polli
 Internet-Draft                         Team Digitale, Italian Government
 Intended status: Standards Track                               L. Pardue
-Expires: 4 June 2021                                          Cloudflare
-                                                         1 December 2020
+Expires: 5 June 2021                                          Cloudflare
+                                                         2 December 2020
 
 
                              Digest Headers
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 June 2021.
+   This Internet-Draft will expire on 5 June 2021.
 
 Copyright Notice
 

@@ -5,10 +5,10 @@
 HTTP                                                     A. Backman, Ed.
 Internet-Draft                                                    Amazon
 Intended status: Standards Track                               J. Richer
-Expires: 4 June 2021                                 Bespoke Engineering
+Expires: 5 June 2021                                 Bespoke Engineering
                                                                M. Sporny
                                                           Digital Bazaar
-                                                         1 December 2020
+                                                         2 December 2020
 
 
                          Signing HTTP Messages
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 June 2021.
+   This Internet-Draft will expire on 5 June 2021.
 
 Copyright Notice
 
@@ -109,14 +109,14 @@ Table of Contents
    Appendix A.  Examples
      A.1.  Example Keys
        A.1.1.  Example Key RSA test
-     A.2.  Example keyId Values
+     A.2.  Example keyid Values
      A.3.  Test Cases
        A.3.1.  Signature Generation
        A.3.2.  Signature Verification
    Appendix B.  Topics for Working Group Discussion
      B.1.  Issues
        B.1.1.  Confusing guidance on algorithm and key identification
-       B.1.2.  Lack of definition of keyId hurts interoperability
+       B.1.2.  Lack of definition of keyid hurts interoperability
        B.1.3.  Algorithm Registry duplicates work of JWA
        B.1.4.  Algorithm Registry should not be initialized with
                deprecated entries
@@ -130,7 +130,7 @@ Table of Contents
        B.1.11. Verification key identifier is not signed
        B.1.12. Max values, precision for Integer String and Decimal
                String not defined
-       B.1.13. keyId parameter value could break list syntax
+       B.1.13. keyid parameter value could break list syntax
        B.1.14. Creation Time and Expiration Time do not allow for
                clock skew
        B.1.15. Should require lowercased header field names as
@@ -311,29 +311,11 @@ Table of Contents
    In addition to those listed above, this document uses the following
    terms:
 
-   Decimal String
-
-      An Integer String optionally concatenated with a period "."
-      followed by a second Integer String, representing a positive real
-      number expressed in base 10.  The first Integer String represents
-      the integral portion of the number, while the optional second
-      Integer String represents the fractional portion of the number.
-      (( Editor's note: There's got to be a definition for this that we
-      can reference. ))
-
-   Integer String
-
-      A US-ASCII string of one or more digits "0-9", representing a
-      positive integer in base 10. (( Editor's note: There's got to be a
-      definition for this that we can reference. ))
-
-   Signer
-
+   Signer:
       The entity that is generating or has generated an HTTP Message
       Signature.
 
-   Verifier
-
+   Verifier:
       An entity that is verifying or has verified an HTTP Message
       Signature against an HTTP Message.  Note that an HTTP Message
       Signature may be verified multiple times, potentially by different
@@ -348,6 +330,9 @@ Table of Contents
    into multiple lines, using the "obs-fold" syntax.  This syntax is
    deprecated in [MESSAGING], and senders MUST NOT generate messages
    that include it.
+
+   Additionally, some examples use '\' line wrapping for long values
+   that contain no whitespace, as per [RFC8792].
 
 2.  Identifying and Canonicalizing Content
 
@@ -439,7 +424,7 @@ Table of Contents
    for Dictionary Structured Field Members given the following example
    header field, whose value is assumed to be a Dictionary:
 
-   X-Dictionary:  a=1, b=2;x=1;y=2, c=(a, b, c)
+   X-Dictionary:  a=1, b=2;x=1;y=2, c=(a b c)
 
    The following table shows example canonicalized values for different
    content identifiers, given that field:
@@ -475,7 +460,7 @@ Table of Contents
    for list prefixes given the following example header fields, whose
    values are assumed to be Dictionaries:
 
-   X-List-A: (a, b, c, d, e, f)
+   X-List-A: (a b c d e f)
    X-List-B: ()
 
    The following table shows example canonicalized values for different
@@ -503,8 +488,8 @@ Table of Contents
    The signature's Creation Time (Section 3.1) is identified by the
    "*created" identifier.
 
-   Its canonicalized value is an Integer String containing the
-   signature's Creation Time expressed in "Unix time".
+   Its canonicalized value is an "sf-integer" containing the signature's
+   Creation Time expressed in "Unix time".
 
       The use of seconds since the Epoch to canonicalize a timestamp
       simplifies processing and avoids timezone management required by
@@ -515,8 +500,8 @@ Table of Contents
    The signature's Expiration Time (Section 3.1) is identified by the
    "*expires" identifier.
 
-   Its canonicalized value is a Decimal String containing the
-   signature's Expiration Time expressed in "Unix time".
+   Its canonicalized value is an "sf-decimal" containing the signature's
+   Expiration Time expressed in "Unix time".
 
 2.6.  Target Endpoint
 
@@ -578,34 +563,29 @@ Table of Contents
    information regarding the signature's generation and/or verification.
    The following metadata properties are defined:
 
-   Algorithm
-
+   Algorithm:
       An HTTP Signature Algorithm defined in the HTTP Signature
       Algorithms Registry defined in this document.  It describes the
       signing and verification algorithms for the signature.
 
-   Creation Time
-
+   Creation Time:
       A timestamp representing the point in time that the signature was
       generated.  Sub-second precision is not supported.  A signature's
       Creation Time MAY be undefined, indicating that it is unknown.
 
-   Covered Content
-
+   Covered Content:
       An ordered list of content identifiers (Section 2) that indicates
       the metadata and message content that is covered by the signature.
       The order of identifiers in this list affects signature generation
       and verification, and therefore MUST be preserved.
 
-   Expiration Time
-
+   Expiration Time:
       A timestamp representing the point in time at which the signature
       expires.  An expired signature always fails verification.  A
       signature's Expiration Time MAY be undefined, indicating that the
       signature does not expire.
 
-   Verification Key Material
-
+   Verification Key Material:
       The key material required to verify the signature.
 
 3.2.  Creating a Signature
@@ -679,7 +659,7 @@ Table of Contents
            with some whitespace.
    X-EmptyHeader:
    X-Dictionary: a=1, b=2
-   X-List: (a, b, c, d)
+   X-List: (a b c d)
    Cache-Control: max-age=60
    Cache-Control: must-revalidate
 
@@ -702,7 +682,7 @@ Table of Contents
      | Time         |                                                |
      +--------------+------------------------------------------------+
      | Verification | The public key provided in Appendix A.1.1 and  |
-     | Key Material | identified by the "keyId" value "test-key-a".  |
+     | Key Material | identified by the "keyid" value "test-key-a".  |
      +--------------+------------------------------------------------+
 
                Table 5: Non-normative example metadata values
@@ -866,40 +846,36 @@ Table of Contents
    document defines the following parameters, and registers them as the
    initial contents of the registry:
 
-   alg
-
+   alg:
       RECOMMENDED.  The "alg" parameter is a Token containing the name
       of the signature's Algorithm, as registered in the HTTP Signature
       Algorithms Registry defined by this document.  Verifiers MUST
-      determine the signature's Algorithm from the "keyId" parameter
+      determine the signature's Algorithm from the "keyid" parameter
       rather than from "alg".  If "alg" is provided and differs from or
       is incompatible with the algorithm or key material identified by
-      "keyId" (for example, "alg" has a value of "rsa-sha256" but
-      "keyId" identifies an EdDSA key), then implementations MUST
+      "keyid" (for example, "alg" has a value of "rsa-sha256" but
+      "keyid" identifies an EdDSA key), then implementations MUST
       produce an error.
 
-   created
+   created:
+      RECOMMENDED.  The "created" parameter is an "sf-integer"
+      containing the signature's Creation Time, expressed as the
+      canonicalized value of the "*created" content identifier, as
+      defined in Section 2.  If not specified, the signature's Creation
+      Time is undefined.  This parameter is useful when signers are not
+      capable of controlling the Date HTTP Header such as when operating
+      in certain web browser environments.
 
-      RECOMMENDED.  The "created" parameter is a Decimal containing the
-      signature's Creation Time, expressed as the canonicalized value of
-      the "*created" content identifier, as defined in Section 2.  If
-      not specified, the signature's Creation Time is undefined.  This
-      parameter is useful when signers are not capable of controlling
-      the Date HTTP Header such as when operating in certain web browser
-      environments.
+   expires:
+      OPTIONAL.  The "expires" parameter is a "sf-decimal" containing
+      the signature's Expiration Time, expressed as the canonicalized
+      value of the "*expires" content identifier, as defined in
+      Section 2.  If the signature does not have an Expiration Time,
+      this parameter MUST be omitted.  If not specified, the signature's
+      Expiration Time is undefined.
 
-   expires
-
-      OPTIONAL.  The "expires" parameter is a Decimal containing the
-      signature's Expiration Time, expressed as the canonicalized value
-      of the "*expires" content identifier, as defined in Section 2.  If
-      the signature does not have an Expiration Time, this parameter
-      MUST be omitted.  If not specified, the signature's Expiration
-      Time is undefined.
-
-   keyId
-
-      REQUIRED.  The "keyId" parameter is a String whose value can be
+   keyid:
+      REQUIRED.  The "keyid" parameter is a String whose value can be
       used by a verifier to identify and/or obtain the signature's
       Verification Key Material.  Further format and semantics of this
       value are out of scope for this document.
@@ -923,15 +899,17 @@ Table of Contents
    "Signature" HTTP header fields representing the signature in
    Figure 2:
 
-   Signature-Input: sig1=(*request-target, *created, host, date,
-       cache-control, x-empty-header, x-example); keyId="test-key-a";
-       alg=hs2019; created=1402170695; expires=1402170995
-   Signature: sig1=:K2qGT5srn2OGbOIDzQ6kYT+ruaycnDAAUpKv+ePFfD0RAxn/1BUe
-       Zx/Kdrq32DrfakQ6bPsvB9aqZqognNT6be4olHROIkeV879RrsrObury8L9SCEibe
-       oHyqU/yCjphSmEdd7WD+zrchK57quskKwRefy2iEC5S2uAH0EPyOZKWlvbKmKu5q4
-       CaB8X/I5/+HLZLGvDiezqi6/7p2Gngf5hwZ0lSdy39vyNMaaAT0tKo6nuVw0S1MVg
-       1Q7MpWYZs0soHjttq0uLIA3DIbQfLiIvK6/l0BdWTU7+2uQj7lBkQAsFZHoA96ZZg
-       FquQrXRlmYOh+Hx5D9fJkXcXe5tmAg==:
+  # NOTE: '\' line wrapping per RFC 8792
+
+  Signature-Input: sig1=(*request-target *created host date
+      cache-control x-empty-header x-example); keyid="test-key-a";
+      alg=hs2019; created=1402170695; expires=1402170995
+  Signature: sig1=:K2qGT5srn2OGbOIDzQ6kYT+ruaycnDAAUpKv+ePFfD0RAxn/1BUe\
+      Zx/Kdrq32DrfakQ6bPsvB9aqZqognNT6be4olHROIkeV879RrsrObury8L9SCEibe\
+      oHyqU/yCjphSmEdd7WD+zrchK57quskKwRefy2iEC5S2uAH0EPyOZKWlvbKmKu5q4\
+      CaB8X/I5/+HLZLGvDiezqi6/7p2Gngf5hwZ0lSdy39vyNMaaAT0tKo6nuVw0S1MVg\
+      1Q7MpWYZs0soHjttq0uLIA3DIbQfLiIvK6/l0BdWTU7+2uQj7lBkQAsFZHoA96ZZg\
+      FquQrXRlmYOh+Hx5D9fJkXcXe5tmAg==:
 
    Since "Signature-Input" and "Signature" are both defined as
    Dictionary Structured Headers, they can be used to easily include
@@ -945,16 +923,18 @@ Table of Contents
    header fields a reverse proxy might add to a forwarded request that
    contains the signature in the above example:
 
-   X-Forwarded-For: 192.0.2.123
-   Signature-Input: reverse_proxy_sig=(*created, host, date,
-       signature:sig1, x-forwarded-for); keyId="test-key-a";
-       alg=hs2019; created=1402170695; expires=1402170695.25
-   Signature: reverse_proxy_sig=:ON3HsnvuoTlX41xfcGWaOEVo1M3bJDRBOp0Pc/O
-       jAOWKQn0VMY0SvMMWXS7xG+xYVa152rRVAo6nMV7FS3rv0rR5MzXL8FCQ2A35DCEN
-       LOhEgj/S1IstEAEFsKmE9Bs7McBsCtJwQ3hMqdtFenkDffSoHOZOInkTYGafkoy78
-       l1VZvmb3Y4yf7McJwAvk2R3gwKRWiiRCw448Nt7JTWzhvEwbh7bN2swc/v3NJbg/w
-       JYyYVbelZx4IywuZnYFxgPl/qvqbAjeEVvaLKLgSMr11y+uzxCHoMnDUnTYhMrmOT
-       4O8lBLfRFOcoJPKBdoKg9U0a96U2mUug1bFOozEVYFg==:
+  # NOTE: '\' line wrapping per RFC 8792
+
+  X-Forwarded-For: 192.0.2.123
+  Signature-Input: reverse_proxy_sig=(*created host date
+      signature:sig1 x-forwarded-for); keyid="test-key-a";
+      alg=hs2019; created=1402170695; expires=1402170695.25
+  Signature: reverse_proxy_sig=:ON3HsnvuoTlX41xfcGWaOEVo1M3bJDRBOp0Pc/O\
+      jAOWKQn0VMY0SvMMWXS7xG+xYVa152rRVAo6nMV7FS3rv0rR5MzXL8FCQ2A35DCEN\
+      LOhEgj/S1IstEAEFsKmE9Bs7McBsCtJwQ3hMqdtFenkDffSoHOZOInkTYGafkoy78\
+      l1VZvmb3Y4yf7McJwAvk2R3gwKRWiiRCw448Nt7JTWzhvEwbh7bN2swc/v3NJbg/w\
+      JYyYVbelZx4IywuZnYFxgPl/qvqbAjeEVvaLKLgSMr11y+uzxCHoMnDUnTYhMrmOT\
+      4O8lBLfRFOcoJPKBdoKg9U0a96U2mUug1bFOozEVYFg==:
 
 5.  IANA Considerations
 
@@ -970,23 +950,20 @@ Table of Contents
 
 5.1.1.  Registration Template
 
-   Algorithm Name
-
+   Algorithm Name:
       An identifier for the HTTP Signature Algorithm.  The name MUST be
       an ASCII string consisting only of lower-case characters (""a"" -
       ""z""), digits (""0"" - ""9""), and hyphens (""-""), and SHOULD
       NOT exceed 20 characters in length.  The identifier MUST be unique
       within the context of the registry.
 
-   Status
-
+   Status:
       A brief text description of the status of the algorithm.  The
       description MUST begin with one of "Active" or "Deprecated", and
       MAY provide further context or explanation as to the reason for
       the status.
 
-   Description
-
+   Description:
       A description of the algorithm used to sign the signing string
       when generating an HTTP Message Signature, or instructions on how
       to determine that algorithm.  When the description specifies an
@@ -1004,85 +981,70 @@ Table of Contents
 
 5.1.2.1.  hs2019
 
-   Algorithm Name
-
+   Algorithm Name:
       "hs2019"
 
-   Status
-
+   Status:
       active
 
-   Description
-
-      Derived from metadata associated with keyId.  Recommend support
+   Description:
+      Derived from metadata associated with keyid.  Recommend support
       for:
 
- 
+  
       *  RSASSA-PSS [RFC8017] using SHA-512 [RFC6234]
 
- 
+  
       *  HMAC [RFC2104] using SHA-512 [RFC6234]
 
- 
+  
       *  ECDSA using curve P-256 DSS [FIPS186-4] and SHA-512 [RFC6234]
 
- 
+  
       *  Ed25519ph, Ed25519ctx, and Ed25519 [RFC8032]
 
 5.1.2.2.  rsa-sha1
 
-   Algorithm Name
-
+   Algorithm Name:
       "rsa-sha1"
 
-   Status
-
+   Status:
       Deprecated; SHA-1 not secure.
 
-   Description
-
+   Description:
       RSASSA-PKCS1-v1_5 [RFC8017] using SHA-1 [RFC6234]
 
 5.1.2.3.  rsa-sha256
 
-   Algorithm Name
-
+   Algorithm Name:
       "rsa-sha256"
 
-   Status
-
+   Status:
       Deprecated; specifying signature algorithm enables attack vector.
 
-   Description
-
+   Description:
       RSASSA-PKCS1-v1_5 [RFC8017] using SHA-256 [RFC6234]
 
 5.1.2.4.  hmac-sha256
 
-   Algorithm Name
-
+   Algorithm Name:
       "hmac-sha256"
 
-   Status
-
+   Status:
       Deprecated; specifying signature algorithm enables attack vector.
 
-   Description
-
+   Description:
       HMAC [RFC2104] using SHA-256 [RFC6234]
 
 5.1.2.5.  ecdsa-sha256
 
-   Algorithm Name
-
+   Algorithm Name:
       "ecdsa-sha256"
 
-   Status
-
+   Status:
       Deprecated; specifying signature algorithm enables attack vector.
 
-   Description
-
+   Description:
       ECDSA using curve P-256 DSS [FIPS186-4] and SHA-256 [RFC6234]
 
 5.2.  HTTP Signature Metadata Parameters Registry
@@ -1115,7 +1077,7 @@ Table of Contents
            +---------+--------+--------------------------------+
            | expires | Active | Section 4.1.1 of this document |
            +---------+--------+--------------------------------+
-           | keyId   | Active | Section 4.1.1 of this document |
+           | keyid   | Active | Section 4.1.1 of this document |
            +---------+--------+--------------------------------+
 
               Table 6: Initial contents of the HTTP Signature
@@ -1172,6 +1134,11 @@ Table of Contents
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
+   [RFC8792]  Watsen, K., Auerswald, E., Farrel, A., and Q. Wu,
+              "Handling Long Lines in Content of Internet-Drafts and
+              RFCs", RFC 8792, DOI 10.17487/RFC8792, June 2020,
+              <https://www.rfc-editor.org/info/rfc8792>.
 
    [SEMANTICS]
               Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
@@ -1295,19 +1262,19 @@ A.1.1.  Example Key RSA test
    EQeNC8fHGg4UXU8mhHnSBt3EA10qQJfRDs15M38eG2cYwB1PZpDHScDnDA0=
    -----END RSA PRIVATE KEY-----
 
-A.2.  Example keyId Values
+A.2.  Example keyid Values
 
-   The table below maps example "keyId" values to associated algorithms
+   The table below maps example "keyid" values to associated algorithms
    and/or keys.  These are example mappings that are valid only within
    the context of examples in examples within this and future documents
    that reference this section.  Unless otherwise specified, within the
    context of examples it should be assumed that the signer and verifier
-   understand these "keyId" mappings.  These "keyId" values are not
+   understand these "keyid" mappings.  These "keyid" values are not
    reserved, and deployments are free to use them, with these
    associations or others.
 
      +============+=================================+================+
-     | keyId      | Algorithm                       | Verification   |
+     | keyid      | Algorithm                       | Verification   |
      |            |                                 | Key            |
      +============+=================================+================+
      | test-key-a | "hs2019", using RSASSA-PSS      | The public key |
@@ -1380,14 +1347,16 @@ A.3.1.1.  hs2019 signature over minimal recommended content
    A possible "Signature-Input" and "Signature" header containing this
    signature is:
 
-   Signature-Input: sig1=(*created, *request-target);
-       keyId="test-key-a"; created=1402170695
-   Signature: sig1=:QaVaWYfF2da6tG66Xtd0GrVFChJ0fOWUe/C6kaYESPiYYwnMH9eg
-       OgyKqgLLY9NQJFk7bQY834sHEUwjS5ByEBaO3QNwIvqEY1qAAU/2MX14tc9Yn7ELB
-       naaNHaHkV3xVO9KIuLT7V6e4OUuGb1axfbXpMgPEql6CEFrn6K95CLuuKP5/gOEcB
-       tmJp5L58gN4VvZrk2OVA6U971YiEDNuDa4CwMcQMvcGssbc/L3OULTUffD/1VcPtd
-       GImP2uvVQntpT8b2lBeBpfh8MuaV2vtzidyBYFtAUoYhRWO8+ntqA1q2OK4LMjM2X
-       gDScSVWvGdVd459A0wI9lRlnPap3zg==:
+  # NOTE: '\' line wrapping per RFC 8792
+
+  Signature-Input: sig1=(*created *request-target);
+      keyid="test-key-a"; created=1402170695
+  Signature: sig1=:QaVaWYfF2da6tG66Xtd0GrVFChJ0fOWUe/C6kaYESPiYYwnMH9eg\
+      OgyKqgLLY9NQJFk7bQY834sHEUwjS5ByEBaO3QNwIvqEY1qAAU/2MX14tc9Yn7ELB\
+      naaNHaHkV3xVO9KIuLT7V6e4OUuGb1axfbXpMgPEql6CEFrn6K95CLuuKP5/gOEcB\
+      tmJp5L58gN4VvZrk2OVA6U971YiEDNuDa4CwMcQMvcGssbc/L3OULTUffD/1VcPtd\
+      GImP2uvVQntpT8b2lBeBpfh8MuaV2vtzidyBYFtAUoYhRWO8+ntqA1q2OK4LMjM2X\
+      gDScSVWvGdVd459A0wI9lRlnPap3zg==:
 
 A.3.1.2.  hs2019 signature covering all header fields
 
@@ -1436,15 +1405,17 @@ A.3.1.2.  hs2019 signature covering all header fields
    A possible "Signature-Input" and "Signature" header containing this
    signature is:
 
-   Signature-Input: sig1=(*request-target, *created, host, date,
-           content-type, digest, content-length); keyId="test-key-a";
-       alg=hs2019; created=1402170695
-   Signature: sig1=:B24UG4FaiE2kSXBNKV4DA91J+mElAhS3mncrgyteAye1GKMpmzt8
-       jkHNjoudtqw3GngGY3n0mmwjdfn1eA6nAjgeHwl0WXced5tONcCPNzLswqPOiobGe
-       A5y4WE8iBveel30OKYVel0lZ1OnXOmN5TIEIIPo9LrE+LzZis6A0HA1FRMtKgKGhT
-       3N965pkqfhKbq/V48kpJKT8+cZs0TOn4HFMG+OIy6c9ofSBrXD68yxP6QYTz6xH0G
-       MWawLyPLYR52j3I05fK1ylAb6K0oxPxzQ5nwrLD+mUVPZ9rDs1En6fmOX9xfkZTbl
-       G/5D+s1fHHs9dDXCOVkT5dLS8DjdIA==:
+  # NOTE: '\' line wrapping per RFC 8792
+
+  Signature-Input: sig1=(*request-target *created host date
+          content-type digest content-length); keyid="test-key-a";
+      alg=hs2019; created=1402170695
+  Signature: sig1=:B24UG4FaiE2kSXBNKV4DA91J+mElAhS3mncrgyteAye1GKMpmzt8\
+      jkHNjoudtqw3GngGY3n0mmwjdfn1eA6nAjgeHwl0WXced5tONcCPNzLswqPOiobGe\
+      A5y4WE8iBveel30OKYVel0lZ1OnXOmN5TIEIIPo9LrE+LzZis6A0HA1FRMtKgKGhT\
+      3N965pkqfhKbq/V48kpJKT8+cZs0TOn4HFMG+OIy6c9ofSBrXD68yxP6QYTz6xH0G\
+      MWawLyPLYR52j3I05fK1ylAb6K0oxPxzQ5nwrLD+mUVPZ9rDs1En6fmOX9xfkZTbl\
+      G/5D+s1fHHs9dDXCOVkT5dLS8DjdIA==:
 
 A.3.2.  Signature Verification
 
@@ -1453,13 +1424,15 @@ A.3.2.1.  Minimal Required Signature Header
    This presents a "Signature-Input" and "Signature" header containing
    only the minimal required parameters:
 
-   Signature-Input: sig1=(); keyId="test-key-a"; created=1402170695
-   Signature: sig1=:cxieW5ZKV9R9A70+Ua1A/1FCvVayuE6Z77wDGNVFSiluSzR9TYFV
-       vwUjeU6CTYUdbOByGMCee5q1eWWUOM8BIH04Si6VndEHjQVdHqshAtNJk2Quzs6WC
-       2DkV0vysOhBSvFZuLZvtCmXRQfYGTGhZqGwq/AAmFbt5WNLQtDrEe0ErveEKBfaz+
-       IJ35zhaj+dun71YZ82b/CRfO6fSSt8VXeJuvdqUuVPWqjgJD4n9mgZpZFGBaDdPiw
-       pfbVZHzcHrumFJeFHWXH64a+c5GN+TWlP8NPg2zFdEc/joMymBiRelq236WGm5VvV
-       9a22RW2/yLmaU/uwf9v40yGR/I1NRA==:
+  # NOTE: '\' line wrapping per RFC 8792
+
+  Signature-Input: sig1=(); keyid="test-key-a"; created=1402170695
+  Signature: sig1=:cxieW5ZKV9R9A70+Ua1A/1FCvVayuE6Z77wDGNVFSiluSzR9TYFV\
+      vwUjeU6CTYUdbOByGMCee5q1eWWUOM8BIH04Si6VndEHjQVdHqshAtNJk2Quzs6WC\
+      2DkV0vysOhBSvFZuLZvtCmXRQfYGTGhZqGwq/AAmFbt5WNLQtDrEe0ErveEKBfaz+\
+      IJ35zhaj+dun71YZ82b/CRfO6fSSt8VXeJuvdqUuVPWqjgJD4n9mgZpZFGBaDdPiw\
+      pfbVZHzcHrumFJeFHWXH64a+c5GN+TWlP8NPg2zFdEc/joMymBiRelq236WGm5VvV\
+      9a22RW2/yLmaU/uwf9v40yGR/I1NRA==:
 
    The corresponding signature metadata derived from this header field
    is:
@@ -1490,14 +1463,16 @@ A.3.2.2.  Minimal Recommended Signature Header
    This presents a "Signature-Input" and "Signature" header containing
    only the minimal required and recommended parameters:
 
-   Signature-Input: sig1=(); alg=hs2019; keyId="test-key-a";
-       created=1402170695
-   Signature: sig1=:cxieW5ZKV9R9A70+Ua1A/1FCvVayuE6Z77wDGNVFSiluSzR9TYFV
-       vwUjeU6CTYUdbOByGMCee5q1eWWUOM8BIH04Si6VndEHjQVdHqshAtNJk2Quzs6WC
-       2DkV0vysOhBSvFZuLZvtCmXRQfYGTGhZqGwq/AAmFbt5WNLQtDrEe0ErveEKBfaz+
-       IJ35zhaj+dun71YZ82b/CRfO6fSSt8VXeJuvdqUuVPWqjgJD4n9mgZpZFGBaDdPiw
-       pfbVZHzcHrumFJeFHWXH64a+c5GN+TWlP8NPg2zFdEc/joMymBiRelq236WGm5VvV
-       9a22RW2/yLmaU/uwf9v40yGR/I1NRA==:
+  # NOTE: '\' line wrapping per RFC 8792
+
+  Signature-Input: sig1=(); alg=hs2019; keyid="test-key-a";
+      created=1402170695
+  Signature: sig1=:cxieW5ZKV9R9A70+Ua1A/1FCvVayuE6Z77wDGNVFSiluSzR9TYFV\
+      vwUjeU6CTYUdbOByGMCee5q1eWWUOM8BIH04Si6VndEHjQVdHqshAtNJk2Quzs6WC\
+      2DkV0vysOhBSvFZuLZvtCmXRQfYGTGhZqGwq/AAmFbt5WNLQtDrEe0ErveEKBfaz+\
+      IJ35zhaj+dun71YZ82b/CRfO6fSSt8VXeJuvdqUuVPWqjgJD4n9mgZpZFGBaDdPiw\
+      pfbVZHzcHrumFJeFHWXH64a+c5GN+TWlP8NPg2zFdEc/joMymBiRelq236WGm5VvV\
+      9a22RW2/yLmaU/uwf9v40yGR/I1NRA==:
 
    The corresponding signature metadata derived from this header field
    is:
@@ -1528,13 +1503,15 @@ A.3.2.3.  Minimal Signature Header using rsa-sha256
    This presents a minimal "Signature-Input" and "Signature" header for
    a signature using the "rsa-sha256" algorithm:
 
-   Signature: sig1=(date); alg=rsa-sha256; keyId="test-key-b"
-   Signature: sig1=:HtXycCl97RBVkZi66ADKnC9c5eSSlb57GnQ4KFqNZplOpNfxqk62
-       JzZ484jXgLvoOTRaKfR4hwyxlcyb+BWkVasApQovBSdit9Ml/YmN2IvJDPncrlhPD
-       VDv36Z9/DiSO+RNHD7iLXugdXo1+MGRimW1RmYdenl/ITeb7rjfLZ4b9VNnLFtVWw
-       rjhAiwIqeLjodVImzVc5srrk19HMZNuUejK6I3/MyN3+3U8tIRW4LWzx6ZgGZUaEE
-       P0aBlBkt7Fj0Tt5/P5HNW/Sa/m8smxbOHnwzAJDa10PyjzdIbywlnWIIWtZKPPsoV
-       oKVopUWEU3TNhpWmaVhFrUL/O6SN3w==:
+  # NOTE: '\' line wrapping per RFC 8792
+
+  Signature: sig1=(date); alg=rsa-sha256; keyid="test-key-b"
+  Signature: sig1=:HtXycCl97RBVkZi66ADKnC9c5eSSlb57GnQ4KFqNZplOpNfxqk62\
+      JzZ484jXgLvoOTRaKfR4hwyxlcyb+BWkVasApQovBSdit9Ml/YmN2IvJDPncrlhPD\
+      VDv36Z9/DiSO+RNHD7iLXugdXo1+MGRimW1RmYdenl/ITeb7rjfLZ4b9VNnLFtVWw\
+      rjhAiwIqeLjodVImzVc5srrk19HMZNuUejK6I3/MyN3+3U8tIRW4LWzx6ZgGZUaEE\
+      P0aBlBkt7Fj0Tt5/P5HNW/Sa/m8smxbOHnwzAJDa10PyjzdIbywlnWIIWtZKPPsoV\
+      oKVopUWEU3TNhpWmaVhFrUL/O6SN3w==:
 
    The corresponding signature metadata derived from this header field
    is:
@@ -1573,26 +1550,26 @@ B.1.  Issues
 B.1.1.  Confusing guidance on algorithm and key identification
 
    The current draft encourages determining the Algorithm metadata
-   property from the "keyId" field, both in the guidance for the use of
-   "algorithm" and "keyId", and the definition for the "hs2019"
+   property from the "keyid" field, both in the guidance for the use of
+   "algorithm" and "keyid", and the definition for the "hs2019"
    algorithm and deprecation of the other algorithms in the registry.
    The current state arose from concern that a malicious party could
    change the value of the "algorithm" parameter, potentially tricking
    the verifier into accepting a signature that would not have been
    verified under the actual parameter.
 
-   Punting algorithm identification into "keyId" hurts interoperability,
-   since we aren't defining the syntax or semantics of "keyId".  It
+   Punting algorithm identification into "keyid" hurts interoperability,
+   since we aren't defining the syntax or semantics of "keyid".  It
    actually goes against that claim, as we are dictating that the
-   signing algorithm must be specified by "keyId" or derivable from it.
+   signing algorithm must be specified by "keyid" or derivable from it.
    It also renders the algorithm registry essentially useless.  Instead
    of this approach, we can protect against manipulation of the
    Signature header field by adding support for (and possibly mandating)
    including Signature metadata within the Signature Input.
 
-B.1.2.  Lack of definition of keyId hurts interoperability
+B.1.2.  Lack of definition of keyid hurts interoperability
 
-   The current text leaves the format and semantics of "keyId"
+   The current text leaves the format and semantics of "keyid"
    completely up to the implementation.  This is primarily due to the
    fact that most implementers of Cavage have extensive investment in
    key distribution and management, and just need to plug an identifier
@@ -1673,7 +1650,7 @@ B.1.10.  Algorithm is not signed
 
 B.1.11.  Verification key identifier is not signed
 
-   The Verification key identifier (e.g., the value used for the "keyId"
+   The Verification key identifier (e.g., the value used for the "keyid"
    parameter) should be part of the Signature Input, to protect against
    malicious changes.
 
@@ -1686,9 +1663,9 @@ B.1.12.  Max values, precision for Integer String and Decimal String not
    maximum precision requirements.  It should set a sane requirement
    here (e.g., MUST support up to 3 decimal places and no more).
 
-B.1.13.  keyId parameter value could break list syntax
+B.1.13.  keyid parameter value could break list syntax
 
-   The "keyId" parameter value needs to be constrained so as to not
+   The "keyid" parameter value needs to be constrained so as to not
    break list syntax (e.g., by containing a comma).
 
 B.1.14.  Creation Time and Expiration Time do not allow for clock skew
@@ -1767,7 +1744,7 @@ B.2.1.  Define more content identifiers
 
    *  The signature's Covered Content
 
-   *  The value used for the "keyId" parameter
+   *  The value used for the "keyid" parameter
 
    *  Request method
 
